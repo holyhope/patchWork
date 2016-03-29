@@ -2,102 +2,104 @@
 #define PATCHWORK_FIGURE_HPP
 
 #include <iostream>
+#include "Point.hpp"
 
 typedef char* color;
-typedef struct {
-	int x;
-	int y;
-} point, vector;
 
 using namespace std;
 
-class figure {
-private:
-	color _color;
+class Figure {
 
 public:
-	/**
-	 * Constructor
-	 */
-	figure(color col): _color(col) {
-	}
+
+    virtual Figure * copy() const = 0;
+
+    virtual ~Figure() { };
 
 	/**
 	 * Draw figure in window.
 	 */
-	void draw(void *);
+	//virtual void draw() const = 0;
 
 	/**
 	 * Display an ASCII figure on the output stream.
 	 */
-	void show(ostream &stream);
+	virtual void show(ostream &stream) const = 0;
 
 	/**
 	 * Get the color of the figure.
 	 */
-	color getColor();
-
-	/**
-	 * Get the top left corner of the smallest rectangle containing the figure.
-	 */
-	point getPosition();
+	virtual color getColor() const {
+        return _color;
+    }
 
 	/**
 	 * Get width of the figure.
 	 */
-	int getWidth();
+	virtual double getWidth() const = 0;
 
 	/**
 	 * Get height of the figure.
 	 */
-	int getHeight();
+	virtual double getHeight() const = 0;
 
 	/**
 	 * Construct a new rotated figure.
 	 */
-	figure* rotate(float angle);
+	//virtual Figure* rotate(float angle) const = 0;
 	
 	/**
 	 * Construct a new translated figure.
 	 */
-	figure* translate(vector vec);
+	//virtual Figure* translate(Point p) const = 0;
 	
 	/**
 	 * Construct a new scaled figure.
 	 */
-	figure* scale(float factor);
+	virtual Figure* scale(float factor) const = 0;
 
 	/**
 	 * Construct a new scaled and translated figure.
 	 */
-	figure* homothety(vector vec, float factor) {
-		return this->translate(vec)->scale(factor);
-	}
+	//virtual Figure* homothety(Point p, float factor) const = 0 ;
 
 	/**
 	 * Construct a new symetrical figure.
 	 */
-	figure* axialSymetry();
+	//virtual Figure* axialSymetry() const = 0;
 
 	/**
 	 * Construct a new symatrical figure.
 	 */
-	figure* centralSymetry();
+	//virtual Figure* centralSymetry() const = 0;
 
 	/**
 	 * Construct a new colorized figure.
 	 */
-	figure* colorize();
+	//virtual Figure* colorize() const = 0;
 
 	/**
 	 * get the area
 	 */
-	int area();
+	virtual double area()  const = 0;
 
 	/**
 	 * Get the length of the perimeter.
 	 */
-	int perimeter();
+	virtual double perimeter() const = 0;
+
+    bool operator== (const Figure & f) const
+    {
+        return (this == &f);
+    }
+
+    friend ostream & operator<< (ostream & os, const Figure & figure)
+    {
+        figure.show(os);
+        return os;
+    }
+private:
+    color _color;
 };
 
 #endif
