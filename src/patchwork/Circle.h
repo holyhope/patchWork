@@ -7,7 +7,7 @@
 
 #include <vector>
 #include "Figure.hpp"
-#include "Point.hpp"
+#include "point.h"
 
 
 class Circle : public Figure{

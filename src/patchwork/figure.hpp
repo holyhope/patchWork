@@ -2,7 +2,7 @@
 #define PATCHWORK_FIGURE_HPP
 
 #include <iostream>
-#include "Point.hpp"
+#include "point.h"
 
 typedef char* color;
 
