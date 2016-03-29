@@ -13,8 +13,8 @@ class Rectangle : public Figure{
 public:
 
 
-    Rectangle(const Point &extremity, const Point &_origin)
-            : _extremity(extremity), _origin(_origin) { }
+    Rectangle(const Point &_origin, const Point &extremity )
+            : _origin(_origin), _extremity(extremity) { }
 
     virtual Figure *copy() const override ;
 

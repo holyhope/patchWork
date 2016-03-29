@@ -1,6 +1,7 @@
 #include <iostream>
 #include "src/patchwork/Circle.h"
 #include "src/patchwork/Rectangle.h"
+#include "src/patchwork/Image.h"
 
 using namespace std;
 
@@ -15,5 +16,11 @@ int main() {
     Rectangle rectangle(Point(-2,-3), Point(2,4));
     cout << rectangle << endl;
     cout << "Area: " << rectangle.area() << " Perimeter: " << rectangle.perimeter() << endl;
+
+    Image image(Point(0,0));
+    image.add(circle);
+    cout << image << endl;
+    image.add(rectangle);
+    cout << image << endl;
     return 0;
 }
