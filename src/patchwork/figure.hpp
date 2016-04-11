@@ -88,8 +88,7 @@ public:
 	 */
 	virtual double perimeter() const = 0;
 
-    bool operator== (const Figure & f) const
-    {
+    bool operator==(const Figure &f) const {
         return (this == &f);
     }
 
@@ -98,6 +97,7 @@ public:
         figure.show(os);
         return os;
     }
+
 private:
     color _color;
 };

@@ -7,16 +7,15 @@
 Figure *Image::copy() const {
 
 
-        Image * image = new Image();
+    Image *image = new Image();
 
-        list<Figure *>::const_iterator it(_figures.begin());
-        list<Figure *>::const_iterator end(_figures.end());
-        while(it != end)
-        {
-            image->add(*((*it)->copy()));
-            it++;
-        }
-        return image;
+    set<Figure *>::const_iterator it(_figures.begin());
+    set<Figure *>::const_iterator end(_figures.end());
+    while (it != end) {
+        image->add(*((*it)->copy()));
+        it++;
+    }
+    return image;
 
 }
 
@@ -24,23 +23,23 @@ void Image::add(const Figure &f) {
     if (f == *this)
         return;
 
-    if (dynamic_cast<const Image *>(&f) != 0)
-    {
-        if (area() < f.area())
-        {
+    if (dynamic_cast<const Image *>(&f) != 0) {
+        if (area() < f.area()) {
             cout << "Can't add larger image than the current image!" << endl;
             return;
         }
     }
 
-    if (_count == IMAGE_MAX)
-    {
+    if (_count == IMAGE_MAX) {
         cerr << "Image is full " << endl;
     }
-    else
-    {
-        _figures.push_back((const_cast<Figure *> (&f))->copy());
-        _count++;
+    else {
+        unsigned long tmp_size = _figures.size();
+        _figures.insert((const_cast<Figure *> (&f)));
+        unsigned long actual_size = _figures.size();
+        if (actual_size > tmp_size) {
+            _count++;
+        }
     }
 }
 
@@ -83,6 +82,12 @@ double Image::area() const {
 double Image::perimeter() const {
     return 0;
 }
+
+bool operator<(const Figure &left, const Figure &right) {
+    return left.getWidth() < right.getWidth() && left.getHeight() < right.getHeight();
+}
+
+
 
 
 
