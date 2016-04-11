@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -107,7 +108,8 @@ int main()
     /* ---------------- bind() ---------------- */
 
 
-    if ((bind(client, (struct sockaddr*)&server_addr,sizeof(server_addr))) < 0) 
+
+    if (_SYS_SOCKET_H_::bind(client, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0)
     {
         cout << "=> Error binding connection, the socket has already been established..." << endl;
         return -1;
@@ -214,7 +216,7 @@ int main()
                 recv(server, buffer, bufsize, 0);
                 cout << buffer << " ";
                 if (*buffer == '#') {
-                    *buffer == '*';
+                    *buffer = '*';
                     isExit = true;
                 }
             } while (*buffer != '*');
