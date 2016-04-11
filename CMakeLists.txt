@@ -8,5 +8,14 @@ set(SOURCE_FILES main.cpp
         src/patchwork/point.h
         src/patchwork/figure.hpp
         src/patchwork/Circle.cpp
-        src/patchwork/Circle.h src/patchwork/Rectangle.cpp src/patchwork/Rectangle.h src/patchwork/Line.cpp src/patchwork/Line.h src/patchwork/Image.cpp src/patchwork/Image.h src/serverSide.cpp src/clientSide.cpp)
+        src/patchwork/Circle.h
+        src/patchwork/Rectangle.cpp
+        src/patchwork/Rectangle.h
+        src/patchwork/Line.cpp
+        src/patchwork/Line.h
+        src/patchwork/Image.cpp
+        src/patchwork/Image.h
+        #src/serverSide.cpp
+        #src/clientSide.cpp
+        )
 add_executable(PatchWork ${SOURCE_FILES})
