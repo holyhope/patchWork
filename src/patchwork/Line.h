@@ -8,7 +8,7 @@
 
 #include "figure.hpp"
 
-class Line :public Figure{
+class Line : public Figure {
 
 
 public:
@@ -16,7 +16,7 @@ public:
     Line(const Point &_origin, const Point &_extremity)
             : _origin(_origin), _extremity(_extremity) { }
 
-    virtual Figure *copy() const override ;
+    virtual Figure *copy() const override;
 
     virtual void show(ostream &stream) const override;
 
@@ -29,6 +29,7 @@ public:
     virtual double area() const override;
 
     virtual double perimeter() const override;
+
 private:
     Point _origin;
     Point _extremity;

@@ -9,7 +9,7 @@ Figure *Rectangle::copy() const {
 }
 
 void Rectangle::show(ostream &stream) const {
-    stream << "Origin(" << this->_origin << ") Extremity(" << this->_extremity << ")"<< endl;
+    stream << "Origin(" << this->_origin << ") Extremity(" << this->_extremity << ")" << endl;
 }
 
 double Rectangle::getWidth() const {
@@ -28,11 +28,11 @@ Figure *Rectangle::scale(float factor) const {
 }
 
 double Rectangle::area() const {
-    return getWidth()*getHeight();
+    return getWidth() * getHeight();
 }
 
 double Rectangle::perimeter() const {
-    return 2*getWidth() + 2*getHeight();
+    return 2 * getWidth() + 2 * getHeight();
 }
 
 

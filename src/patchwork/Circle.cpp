@@ -7,22 +7,21 @@
 /**
  * Fonction virtuelle de copie
  */
-Figure * Circle::copy() const
-{
+Figure *Circle::copy() const {
     return new Circle(this->_centre, this->_rayon);
 }
 
 void Circle::show(ostream &stream) const {
-    stream  <<  "          *****         \n"
-    <<  "       *         *      \n"
-    <<  "      *            *    \n"
-    <<  "     *              *   \n"
-    <<  "     *              *   \n"
-    <<  "     *              *   \n"
-    <<  "     *              *   \n"
-    <<  "      *            *    \n"
-    <<  "        *        *      \n"
-    <<  "           *****         \n"
+    stream << "          *****         \n"
+    << "       *         *      \n"
+    << "      *            *    \n"
+    << "     *              *   \n"
+    << "     *              *   \n"
+    << "     *              *   \n"
+    << "     *              *   \n"
+    << "      *            *    \n"
+    << "        *        *      \n"
+    << "           *****         \n"
     << endl;
     stream << "cercle : (" << _centre << ", " << _rayon << ")" << endl;
 }
@@ -44,7 +43,7 @@ double Circle::perimeter() const {
 }
 
 Figure *Circle::scale(float factor) const {
-    return new Circle(this->_centre, this->_rayon*factor);
+    return new Circle(this->_centre, this->_rayon * factor);
 }
 
 

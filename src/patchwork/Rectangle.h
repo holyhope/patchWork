@@ -8,27 +8,28 @@
 
 #include "figure.hpp"
 
-class Rectangle : public Figure{
+class Rectangle : public Figure {
 
 public:
 
 
-    Rectangle(const Point &_origin, const Point &extremity )
+    Rectangle(const Point &_origin, const Point &extremity)
             : _origin(_origin), _extremity(extremity) { }
 
-    virtual Figure *copy() const override ;
+    virtual Figure *copy() const override;
 
-    virtual void show(ostream &stream) const override ;
+    virtual void show(ostream &stream) const override;
 
-    virtual double getWidth() const override ;
+    virtual double getWidth() const override;
 
-    virtual double getHeight() const override ;
+    virtual double getHeight() const override;
 
-    virtual Figure *scale(float factor) const override ;
+    virtual Figure *scale(float factor) const override;
 
-    virtual double area() const override ;
+    virtual double area() const override;
 
     virtual double perimeter() const override;
+
 private:
     Point _origin;
     Point _extremity;

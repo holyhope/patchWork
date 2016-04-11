@@ -10,11 +10,11 @@
 #include "point.h"
 
 
-class Circle : public Figure{
+class Circle : public Figure {
 public:
 
-    Circle(const Point & centre = Point(0,0), double rayon = 0)
-            : _centre(centre), _rayon(rayon){ }
+    Circle(const Point &centre = Point(0, 0), double rayon = 0)
+            : _centre(centre), _rayon(rayon) { }
 
     virtual Figure *copy() const;
 
