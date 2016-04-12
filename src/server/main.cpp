@@ -10,8 +10,7 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
     /* ---------- INITIALIZING VARIABLES ---------- */
 
     /*  
@@ -62,8 +61,7 @@ int main()
 
     client = socket(AF_INET, SOCK_STREAM, 0);
 
-    if (client < 0) 
-    {
+    if (client < 0) {
         cout << "\nError establishing socket..." << endl;
         exit(1);
     }
@@ -109,8 +107,7 @@ int main()
 
 
 
-    if (_SYS_SOCKET_H_::bind(client, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0)
-    {
+    if (_SYS_SOCKET_H_::bind(client, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
         cout << "=> Error binding connection, the socket has already been established..." << endl;
         return -1;
     }
@@ -164,14 +161,13 @@ int main()
     */
 
     int clientCount = 1;
-    server = accept(client,(struct sockaddr *)&server_addr,&size);
+    server = accept(client, (struct sockaddr *) &server_addr, &size);
 
     // first check if it is valid or not
-    if (server < 0) 
+    if (server < 0)
         cout << "=> Error on accepting..." << endl;
 
-    while (server > 0) 
-    {
+    while (server > 0) {
         strcpy(buffer, "=> Server connected...\n");
         send(server, buffer, bufsize, 0);
         cout << "=> Connected with the client #" << clientCount << ", you are good to go..." << endl;

@@ -10,8 +10,7 @@
 
 using namespace std;
 
-int main()
-{
+int main() {
     /* ---------- INITIALIZING VARIABLES ---------- */
 
     /*  
@@ -51,7 +50,7 @@ int main()
     bool isExit = false;
     int bufsize = 1024;
     char buffer[bufsize];
-    char* ip = "127.0.0.1";
+    char *ip = "127.0.0.1";
 
     struct sockaddr_in server_addr;
 
@@ -60,8 +59,7 @@ int main()
     /* ---------- ESTABLISHING SOCKET CONNECTION ----------*/
     /* --------------- socket() function ------------------*/
 
-    if (client < 0)
-    {
+    if (client < 0) {
         cout << "\nError establishing socket..." << endl;
         exit(1);
     }
@@ -110,7 +108,7 @@ int main()
     /* ---------- CONNECTING THE SOCKET ---------- */
     /* ---------------- connect() ---------------- */
 
-    if (connect(client,(struct sockaddr *)&server_addr, sizeof(server_addr)) == 0)
+    if (connect(client, (struct sockaddr *) &server_addr, sizeof(server_addr)) == 0)
         cout << "=> Connection to the server port number: " << portNum << endl;
 
     /* 
