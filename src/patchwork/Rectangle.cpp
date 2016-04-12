@@ -2,6 +2,7 @@
 // Created by Pichou Maxime on 29/03/2016.
 //
 
+#include <cmath>
 #include "Rectangle.h"
 
 Figure *Rectangle::copy() const {
@@ -13,11 +14,21 @@ void Rectangle::show(ostream &stream) const {
 }
 
 double Rectangle::getWidth() const {
-    return this->_extremity.getX() - this->_origin.getX();
+    Point C(_extremity.getX(), _origin.getY());
+
+    double xC_minus_xOrigin = C.getX() - _origin.getX();
+    double yC_minus_yOrigin = C.getY() - _origin.getY();
+
+    return sqrt((xC_minus_xOrigin * xC_minus_xOrigin) + (yC_minus_yOrigin * yC_minus_yOrigin));
 }
 
 double Rectangle::getHeight() const {
-    return this->_extremity.getY() - this->_origin.getY();
+    Point C(_extremity.getX(), _origin.getY());
+
+    double xC_minus_xExtremity = C.getX() - _extremity.getX();
+    double yC_minus_yExtremity = C.getY() - _extremity.getY();
+
+    return sqrt((xC_minus_xExtremity * xC_minus_xExtremity) + (yC_minus_yExtremity * yC_minus_yExtremity));
 }
 
 /*
@@ -34,6 +45,25 @@ double Rectangle::area() const {
 double Rectangle::perimeter() const {
     return 2 * getWidth() + 2 * getHeight();
 }
+
+/*
+ * TODO
+ */
+Figure *Rectangle::rotate(float angle) const {
+    float radianAngle = angle / 180.0 * M_PI;
+    float center_x = (_origin.getX() + _extremity.getX()) / 2.;
+    float center_y = (_origin.getY() + _extremity.getY()) / 2.;
+
+    long Ax_new = lround(cos(radianAngle) * (_origin.getX()-center_x) - sin(radianAngle) * (_origin.getY()-center_y) + center_x);
+    long Ay_new = lround(sin(radianAngle) * (_origin.getX()-center_x) + cos(radianAngle) * (_origin.getY()-center_y) + center_y);
+
+    long Bx_new = lround(cos(radianAngle) * (_extremity.getX()-center_x) - sin(radianAngle) * (_extremity.getY()-center_y) + center_x);
+    long By_new = lround(sin(radianAngle) * (_extremity.getX()-center_x) + cos(radianAngle) * (_extremity.getY()-center_y) + center_y);
+
+    return new Rectangle(Point(Ax_new,Ay_new), Point(Bx_new,By_new));
+}
+
+
 
 
 

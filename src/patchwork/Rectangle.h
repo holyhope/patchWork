@@ -30,6 +30,8 @@ public:
 
     virtual double perimeter() const override;
 
+    virtual Figure *rotate(float angle) const override;
+
 private:
     Point _origin;
     Point _extremity;

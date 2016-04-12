@@ -12,7 +12,7 @@ void Point::setX(int a) {
 }
 
 int Point::getY() const {
-    return x;
+    return y;
 }
 
 void Point::setY(int b) {

@@ -14,7 +14,7 @@ class Line : public Figure {
 public:
 
     Line(const Point &_origin, const Point &_extremity)
-            : _origin(_origin), _extremity(_extremity) { }
+            : _A(_origin), _B(_extremity) { }
 
     virtual Figure *copy() const override;
 
@@ -30,9 +30,12 @@ public:
 
     virtual double perimeter() const override;
 
+    virtual Figure *rotate(float angle) const override;
+
+
 private:
-    Point _origin;
-    Point _extremity;
+    Point _A;
+    Point _B;
 };
 
 

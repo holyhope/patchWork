@@ -87,6 +87,12 @@ bool operator<(const Figure &left, const Figure &right) {
     return left.getWidth() < right.getWidth() && left.getHeight() < right.getHeight();
 }
 
+Figure *Image::rotate(float angle) const {
+    return nullptr;
+}
+
+
+
 
 
 

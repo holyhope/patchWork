@@ -46,7 +46,7 @@ public:
 	/**
 	 * Construct a new rotated figure.
 	 */
-	//virtual Figure* rotate(float angle) const = 0;
+	virtual Figure* rotate(float angle) const = 0;
 	
 	/**
 	 * Construct a new translated figure.

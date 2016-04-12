@@ -46,6 +46,12 @@ Figure *Circle::scale(float factor) const {
     return new Circle(this->_centre, this->_rayon * factor);
 }
 
+Figure *Circle::rotate(float angle) const {
+    return nullptr;
+}
+
+
+
 
 
 

@@ -51,6 +51,9 @@ public:
 
     virtual double perimeter() const override;
 
+    virtual Figure *rotate(float angle) const override;
+
+
     friend bool operator<(const Figure &left, const Figure &right);
 
 
