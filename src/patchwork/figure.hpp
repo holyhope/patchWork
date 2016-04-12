@@ -2,7 +2,7 @@
 #define PATCHWORK_FIGURE_HPP
 
 #include <iostream>
-#include "point.h"
+#include "point.hpp"
 
 typedef char* color;
 
@@ -92,9 +92,8 @@ public:
         return (this == &f);
     }
 
-    friend ostream & operator<< (ostream & os, const Figure & figure)
-    {
-        figure.show(os);
+    friend ostream &operator<<(ostream &os, const Figure &figure) {
+        os << "Undefined figure";
         return os;
     }
 

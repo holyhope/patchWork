@@ -1,31 +1,30 @@
-#include "point.h"
+#include "point.hpp"
 
-Point::Point(int a, int b) : x(a), y(b) {
-}
+#include <iostream>
 
 int Point::getX() const {
-    return x;
+    return _x;
 }
 
 void Point::setX(int a) {
-    x = a;
+    _x = a;
 }
 
 int Point::getY() const {
-    return y;
+    return _y;
 }
 
 void Point::setY(int b) {
-    y = b;
+    _y = b;
 }
 
 Point Point::operator+(const Point &p) const {
-    return Point(x + p.x, y + p.y);
+    return Point(_x + p._x, _y + p._y);
 }
 
 Point &Point::operator+=(const Point &p) {
-    x += p.x;
-    y += p.y;
+    _x += p._x;
+    _y += p._y;
     return *this;
 }
 
@@ -33,13 +32,13 @@ Point &Point::operator=(const Point &p) {
     if (this == &p)
         return *this;
 
-    x = p.x;
-    y = p.y;
+    _x = p._x;
+    _y = p._y;
 
     return *this;
 }
 
-ostream &operator<<(ostream &os, const Point &p) {
-    os << '(' << p.x << ',' << p.y << ')';
+std::ostream &operator<<(std::ostream &os, const Point &p) {
+    os << "Point(" << p._x << ";" << p._y << ")";
     return os;
 }

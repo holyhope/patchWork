@@ -6,13 +6,17 @@
 #include "Line.h"
 
 Figure *Line::copy() const {
-    return new Line(this->_A, this->_B);
+    return new Line(_A, _B);
+}
+
+std::ostream &operator<<(std::ostream &os, const Line &l) {
+    os << "Line(" << l._A << ";" << l._B << ")";
+    return os;
 }
 
 void Line::show(ostream &stream) const {
-    stream << "Line((" << this->_A << ")(" << this->_B << ")";
+    stream << "-----------";
 }
-
 
 double Line::getWidth() const {
     Point C(_B.getX(),_A.getY());

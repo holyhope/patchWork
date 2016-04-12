@@ -7,35 +7,35 @@
 
 
 #include "figure.hpp"
+#include "point.hpp"
 
 class Line : public Figure {
-
-
 public:
 
     Line(const Point &_origin, const Point &_extremity)
             : _A(_origin), _B(_extremity) { }
 
-    virtual Figure *copy() const override;
+    Figure *copy() const override;
 
-    virtual void show(ostream &stream) const override;
+    void show(ostream &stream) const override;
 
-    virtual double getWidth() const override;
+    double getWidth() const override;
 
-    virtual double getHeight() const override;
+    double getHeight() const override;
 
-    virtual Figure *scale(float factor) const override;
+    Figure *scale(float factor) const override;
 
-    virtual double area() const override;
+    double area() const override;
 
-    virtual double perimeter() const override;
+    double perimeter() const override;
 
-    virtual Figure *rotate(float angle) const override;
+    Figure *rotate(float angle) const override;
 
-
-private:
+protected:
     Point _A;
     Point _B;
+
+    friend std::ostream &operator<<(std::ostream &os, const Line &l);
 };
 
 
