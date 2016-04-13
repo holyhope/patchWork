@@ -18,8 +18,9 @@ std::ostream &operator<<(std::ostream &os, const Line &l) {
 }
 
 void Line::show(ostream &stream) const {
-    stream << "-----------";
+    stream << "Line(A:" << this->_A << ", B:" << this->_B << ")";
 }
+
 
 double Line::getWidth() const {
     Point C(_B.getX(), _A.getY());

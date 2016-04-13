@@ -65,6 +65,10 @@ public:
 
     static void initialize();
 
+    int getCount();
+
+    Figure *get(int i) const;
+
 private:
     static const std::string PREFIX;
     Point _origin;

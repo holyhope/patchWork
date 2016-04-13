@@ -127,3 +127,12 @@ bool operator<(const Figure &left, const Figure &right) {
 Figure *Image::rotate(float angle) const {
     return nullptr;
 }
+
+int Image::getCount() {
+    return _count;
+}
+
+Figure *Image::get(int i) const {
+    return *std::next(_figures.begin(), i);
+}
+
