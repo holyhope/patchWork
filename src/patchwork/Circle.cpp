@@ -12,18 +12,7 @@ Figure *Circle::copy() const {
 }
 
 void Circle::show(ostream &stream) const {
-    stream << "          *****         \n"
-    << "       *         *      \n"
-    << "      *            *    \n"
-    << "     *              *   \n"
-    << "     *              *   \n"
-    << "     *              *   \n"
-    << "     *              *   \n"
-    << "      *            *    \n"
-    << "        *        *      \n"
-    << "           *****         \n"
-    << endl;
-    stream << "cercle : (" << _centre << ", " << _rayon << ")" << endl;
+    stream << "Circle(Center:" << _centre << ", Radius;" << _rayon << ")";
 }
 
 double Circle::getWidth() const {

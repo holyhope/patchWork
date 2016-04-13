@@ -10,7 +10,7 @@ Figure *Line::copy() const {
 }
 
 void Line::show(ostream &stream) const {
-    stream << "Line((" << this->_A << ")(" << this->_B << ")";
+    stream << "Line(A:" << this->_A << ", B:" << this->_B << ")";
 }
 
 

@@ -10,7 +10,7 @@ Figure *Rectangle::copy() const {
 }
 
 void Rectangle::show(ostream &stream) const {
-    stream << "Origin(" << this->_origin << ") Extremity(" << this->_extremity << ")" << endl;
+    stream << "Rectangle(Origin:" << this->_origin << ", Extremity:" << this->_extremity << ")";
 }
 
 double Rectangle::getWidth() const {
