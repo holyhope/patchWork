@@ -6,7 +6,7 @@
 #include <cstdio>
 #include "Line.h"
 
-const std::string Line::PREFIX = std::string("RECt");
+const std::string Line::PREFIX = std::string("LINE");
 
 Figure *Line::copy() const {
     return new Line(_A, _B);
@@ -20,7 +20,6 @@ std::ostream &operator<<(std::ostream &os, const Line &l) {
 void Line::show(ostream &stream) const {
     stream << "Line(A:" << this->_A << ", B:" << this->_B << ")";
 }
-
 
 double Line::getWidth() const {
     Point C(_B.getX(), _A.getY());
@@ -85,7 +84,6 @@ double Line::perimeter() const {
 }
 
 Figure *Line::rotate(float angle) const {
-
     float radianAngle = angle / 180.0 * M_PI;
     float center_x = (_A.getX() + _B.getX()) / 2.;
     float center_y = (_A.getY() + _B.getY()) / 2.;
@@ -108,18 +106,3 @@ Figure *Line::rotate(float angle) const {
 
     return new Line(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
