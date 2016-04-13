@@ -9,6 +9,7 @@
 #include <netinet/in.h>
 #include <string>
 #include "../patchwork/figure.hpp"
+#include "../patchwork/Image.h"
 
 class Client {
 public:
@@ -20,7 +21,7 @@ public:
 
     void sendFigure(Figure &figure) const;
 
-    Figure *receiveFigure() const;
+    Image getImage() const;
 
 protected:
     struct sockaddr_in server_addr;

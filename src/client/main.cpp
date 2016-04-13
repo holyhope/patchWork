@@ -4,6 +4,7 @@
 #include <arpa/inet.h>
 
 #include "client.h"
+#include "cli.h"
 #include "../patchwork/patchwork.h"
 #include "../patchwork/Image.h"
 
@@ -22,10 +23,7 @@ int main(int argc, const char *argv[]) {
 
     client.start();
 
-    // Draw figure
-    Figure *figure = new Image();
-    client.sendFigure(*figure);
-    figure = client.receiveFigure();
+    startCli(client);
 
     client.stop();
 

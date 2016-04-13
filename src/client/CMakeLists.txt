@@ -4,8 +4,9 @@ project(PatchWork)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
 
 set(SOURCE_FILES main.cpp
+        cli.cpp
         client.cpp
-        client.h)
+        client.h cli.h)
 
 add_executable(client ${SOURCE_FILES})
 

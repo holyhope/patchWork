@@ -41,7 +41,7 @@ void Client::sendFigure(Figure &figure) const {
     send(client, buffer.c_str(), buffer.size(), 0);
 }
 
-Figure *Client::receiveFigure() const {
+Image Client::getImage() const {
     char buffer[BUFFER_SIZE], *b;
     recv(client, buffer, BUFFER_SIZE - 1, 0);
 
@@ -49,7 +49,7 @@ Figure *Client::receiveFigure() const {
 
     b = buffer;
 
-    return Figure::decode(&b);
+    return *(Image *) Image::decode(&b);
 }
 
 void Client::stop() {
