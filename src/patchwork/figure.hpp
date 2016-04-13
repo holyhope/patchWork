@@ -12,14 +12,6 @@ typedef Figure *decodeMethod(char **msg);
 
 typedef bool decodableMethod(char *msg);
 
-typedef struct _figureList {
-    decodeMethod *decode;
-
-    decodableMethod *decodable;
-
-    struct _figureList *next;
-} FigureList;
-
 using namespace std;
 
 class Figure {

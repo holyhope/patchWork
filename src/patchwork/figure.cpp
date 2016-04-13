@@ -5,6 +5,14 @@
 #include <iostream>
 #include "figure.hpp"
 
+typedef struct _figureList {
+    decodeMethod *decode;
+
+    decodableMethod *decodable;
+
+    struct _figureList *next;
+} FigureList;
+
 FigureList *registeredFigures = NULL;
 
 ostream &operator<<(ostream &os, const Figure &figure) {
