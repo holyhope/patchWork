@@ -53,8 +53,11 @@ public:
 
     virtual Figure *rotate(float angle) const override;
 
-
     friend bool operator<(const Figure &left, const Figure &right);
+
+    int getCount();
+
+    Figure *get(int i) const;
 
 
 private:
