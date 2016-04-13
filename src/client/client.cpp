@@ -31,9 +31,8 @@ void Client::start() {
 
     started = true;
 
-    std::cout << "=> Awaiting confirmation from the server..." << std::endl; //line 40
     recv(client, buffer, BUFFER_SIZE, 0);
-    std::cout << "=> Connection confirmed, you are good to go...";
+    std::cout << "=> Connected to " << buffer << endl;
 }
 
 void Client::sendFigure(Figure &figure) const {
