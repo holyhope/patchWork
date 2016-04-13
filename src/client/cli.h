@@ -5,6 +5,6 @@
 #ifndef PATCHWORK_CLI_H
 #define PATCHWORK_CLI_H
 
-int startCli(Client client);
+int startCli();
 
 #endif //PATCHWORK_CLI_H

@@ -1,5 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 #include "client.h"
 #include "../patchwork/Circle.h"
 #include "../patchwork/Rectangle.h"
@@ -59,7 +63,7 @@ void test1() {
     cout << image << endl; //display 0
 }
 
-int startCli(Client client) {
+int startCli() {
     //test1();
     std::ofstream ofile;
     std::ifstream ifile;
@@ -68,7 +72,15 @@ int startCli(Client client) {
     int maxChoice = 0;
     bool finish = false;
     char buffer[BUFFER_SIZE];
+    struct sockaddr_in server_addr;
+    int portNum = 1500;
+    std::string ip = "127.0.0.1";
 
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(portNum);
+    inet_pton(AF_INET, ip.c_str(), &server_addr.sin_addr);
+
+    Client client = Client(server_addr);
 
     Image image, imageServer;
 
@@ -197,8 +209,14 @@ int startCli(Client client) {
                 image = Image();
                 break;
             case 10:
-                client.sendFigure(image);
-                image = client.getImage();
+                try {
+                    client.start();
+                    client.sendFigure(image);
+                    image = client.getImage();
+                    client.stop();
+                } catch (const std::exception &e) {
+                    cerr << e.what() << endl;
+                }
                 break;
             case 11:
                 ofile.open("export.txt");

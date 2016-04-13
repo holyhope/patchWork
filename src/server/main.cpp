@@ -13,14 +13,19 @@
 
 using namespace std;
 
+int client;
 bool isExit = false;
 
 void signal_callback_handler(int signum) {
     switch (signum) {
         case SIGTERM:
+        case SIGINT:
+            cout << " => Shutting down server..." << endl;
             isExit = true;
+            close(client);
             break;
         default:
+            cout << "Signal " << signum << " caught" << endl;
             break;
     }
 }
@@ -30,7 +35,7 @@ int main() {
 
     initializePatchwork();
 
-    int client, server;
+    int server;
     int portNum = 1500;
     char buffer[BUFFER_SIZE];
     string message;
@@ -41,7 +46,7 @@ int main() {
     client = socket(AF_INET, SOCK_STREAM, 0);
 
     if (client < 0) {
-        throw new std::runtime_error("Error establishing socket");
+        throw std::runtime_error("Error establishing socket");
     }
 
     cout << endl << "=> Socket server has been created..." << endl;
@@ -51,7 +56,7 @@ int main() {
     server_addr.sin_port = htons(portNum);
 
     if (0 > _SYS_SOCKET_H_::bind(client, (struct sockaddr *) &server_addr, sizeof(server_addr))) {
-        throw new std::runtime_error("Error binding connection, the socket has already been established");
+        throw std::runtime_error("Error binding connection, the socket has already been established");
     }
 
     size = sizeof(server_addr);
@@ -90,7 +95,7 @@ int main() {
             if (0 > close(server)) {
                 cerr << "Cannot close connection with #" << clientCount << endl;
             } else {
-                cout << endl << "=> Connection terminated with IP " << inet_ntoa(server_addr.sin_addr) << endl;
+                cout << endl << "=> Connection terminated with IP " << string(inet_ntoa(server_addr.sin_addr)) << endl;
             }
         }
 

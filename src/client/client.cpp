@@ -13,7 +13,7 @@ void Client::start() {
     char buffer[BUFFER_SIZE];
 
     if (started) {
-        throw new std::runtime_error("Connexion is already started");
+        throw std::runtime_error("Connexion is already started");
     }
 
     client = socket(AF_INET, SOCK_STREAM, 0);
@@ -22,11 +22,11 @@ void Client::start() {
     /* --------------- socket() function ------------------*/
 
     if (client < 0) {
-        throw new std::runtime_error("Error establishing socket");
+        throw std::runtime_error("Error establishing socket");
     }
 
     if (0 > connect(client, (struct sockaddr *) &server_addr, sizeof(server_addr))) {
-        throw new std::runtime_error("Error connecting to server");
+        throw std::runtime_error("Error connecting to server");
     }
 
     started = true;
@@ -53,7 +53,7 @@ Image Client::getImage() const {
 
 void Client::stop() {
     if (!started) {
-        throw new std::runtime_error("Connexion is not started");
+        throw std::runtime_error("Connexion is not started");
     }
     close(client);
     started = false;
