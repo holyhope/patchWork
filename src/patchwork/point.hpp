@@ -2,8 +2,8 @@
 // Created by Pierre Peronnet on 12/04/2016.
 //
 
-#ifndef PATCHWORK_POINT_HPP_H
-#define PATCHWORK_POINT_HPP_H
+#ifndef PATCHWORK_POINT_HPP
+#define PATCHWORK_POINT_HPP
 
 #include <iostream>
 
@@ -12,26 +12,28 @@ public:
     Point(int a, int b) : _x(a), _y(b) {
     }
 
-    virtual int getX() const;
+    int getX() const;
 
-    virtual void setX(int a);
+    void setX(int a);
 
-    virtual int getY() const;
+    int getY() const;
 
-    virtual void setY(int b);
+    void setY(int b);
 
-    virtual Point operator+(const Point &p) const;
+    static Point *decode(char **message);
 
-    virtual Point &operator+=(const Point &p);
+    std::string encode() const;
 
-    virtual Point &operator=(const Point &p);
+    Point operator+(const Point &p) const;
 
-protected:
+    Point &operator+=(const Point &p);
+
+    Point &operator=(const Point &p);
+
+private:
     int _x, _y;
 
     friend std::ostream &operator<<(std::ostream &os, const Point &p);
 };
-
-std::ostream &operator<<(std::ostream &os, const Point &p);
 
 #endif //PATCHWORK_POINT_HPP_H

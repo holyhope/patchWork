@@ -8,7 +8,9 @@
 
 #include <list>
 #include <set>
+#include <iostream>
 #include "figure.hpp"
+#include "point.hpp"
 
 class Image : public Figure {
 
@@ -22,9 +24,9 @@ public:
 
     void add(const Figure &f);
 
-    virtual Figure *copy() const override;
+    Figure *copy() const;
 
-    virtual ~Image() {
+    ~Image() {
         std::set<Figure *>::iterator it(_figures.begin());
         std::set<Figure *>::iterator tmp;
 
@@ -39,31 +41,37 @@ public:
         }
     }
 
-    virtual void show(ostream &stream) const override;
+    static Figure *decode(char **message);
 
-    virtual double getWidth() const override;
+    std::string encode() const;
 
-    virtual double getHeight() const override;
+    static bool decodable(char *message);
 
-    virtual Figure *scale(float factor) const override;
+    void show(ostream &stream) const;
 
-    virtual double area() const override;
+    double getWidth() const;
 
-    virtual double perimeter() const override;
+    double getHeight() const;
 
-    virtual Figure *rotate(float angle) const override;
+    Figure *scale(float factor) const;
 
+    double area() const;
+
+    double perimeter() const;
+
+    Figure *rotate(float angle) const;
 
     friend bool operator<(const Figure &left, const Figure &right);
 
+    static void initialize();
 
 private:
+    static const std::string PREFIX;
     Point _origin;
 
     set<Figure *> _figures;
 
     int _count;
 };
-
 
 #endif //PATCHWORK_IMAGE_H

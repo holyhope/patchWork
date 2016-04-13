@@ -8,35 +8,43 @@
 
 #include "figure.hpp"
 #include "point.hpp"
+#include <iostream>
 
 class Line : public Figure {
 public:
-
     Line(const Point &_origin, const Point &_extremity)
             : _A(_origin), _B(_extremity) { }
 
-    Figure *copy() const override;
+    Figure *copy() const;
 
-    void show(ostream &stream) const override;
+    static Figure *decode(char **message);
 
-    double getWidth() const override;
+    std::string encode() const;
 
-    double getHeight() const override;
+    static bool decodable(char *message);
 
-    Figure *scale(float factor) const override;
+    void show(ostream &stream) const;
 
-    double area() const override;
+    double getWidth() const;
 
-    double perimeter() const override;
+    double getHeight() const;
 
-    Figure *rotate(float angle) const override;
+    Figure *scale(float factor) const;
 
-protected:
+    double area() const;
+
+    double perimeter() const;
+
+    Figure *rotate(float angle) const;
+
+    static void initialize();
+
+private:
+    static const std::string PREFIX;
     Point _A;
     Point _B;
 
     friend std::ostream &operator<<(std::ostream &os, const Line &l);
 };
-
 
 #endif //PATCHWORK_LINE_H

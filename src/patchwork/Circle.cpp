@@ -4,6 +4,8 @@
 
 #include "Circle.h"
 
+const std::string Circle::PREFIX = std::string("CIRC");
+
 /**
  * Fonction virtuelle de copie
  */
@@ -12,7 +14,8 @@ Figure *Circle::copy() const {
 }
 
 void Circle::show(ostream &stream) const {
-    stream << "          *****         \n"
+    stream
+    << "          *****         \n"
     << "       *         *      \n"
     << "      *            *    \n"
     << "     *              *   \n"
@@ -21,13 +24,34 @@ void Circle::show(ostream &stream) const {
     << "     *              *   \n"
     << "      *            *    \n"
     << "        *        *      \n"
-    << "           *****         \n"
+    << "           *****        \n"
     << endl;
     stream << "cercle : (" << _centre << ", " << _rayon << ")" << endl;
 }
 
+Figure *Circle::decode(char **message) {
+    int rayon;
+    Point *center;
+    *message = *message + PREFIX.size();
+    center = Point::decode(message);
+    std::sscanf(*message, ":%d", &rayon);
+    return new Circle(*center, rayon);
+}
+
+bool Circle::decodable(char *message) {
+    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
+}
+
 double Circle::getWidth() const {
     return _rayon;
+}
+
+std::string Circle::encode() const {
+    return PREFIX + _centre.encode() + ":" + std::to_string(_rayon);
+}
+
+void Circle::initialize() {
+    Figure::registerFigure(Circle::decodable, Circle::decode);
 }
 
 double Circle::getHeight() const {

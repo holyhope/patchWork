@@ -5,9 +5,9 @@
 #ifndef PATCHWORK_CIRCLE_H
 #define PATCHWORK_CIRCLE_H
 
-#include <vector>
 #include "Figure.hpp"
 #include "point.hpp"
+#include <iostream>
 
 
 class Circle : public Figure {
@@ -16,19 +16,25 @@ public:
     Circle(const Point &centre = Point(0, 0), double rayon = 0)
             : _centre(centre), _rayon(rayon) { }
 
-    virtual Figure *copy() const override ;
+    Figure *copy() const;
 
-    virtual void show(ostream &stream) const override ;
+    static Figure *decode(char **message);
 
-    virtual double getWidth() const override ;
+    std::string encode() const;
 
-    virtual double getHeight() const override ;
+    static bool decodable(char *message);
+
+    void show(ostream &stream) const;
+
+    double getWidth() const;
+
+    double getHeight() const;
 
     //virtual Figure *rotate(float angle)const ;
 
     //virtual Figure *translate(Point p) const;
 
-    virtual Figure *scale(float factor) const override ;
+    Figure *scale(float factor) const;
 
     //virtual Figure *homothety(Point p, float factor) const;
 
@@ -38,17 +44,18 @@ public:
 
     //virtual Figure *colorize() const;
 
-    virtual double area() const override ;
+    double area() const;
 
-    virtual double perimeter() const override ;
+    double perimeter() const;
 
-    virtual Figure *rotate(float angle) const override;
+    Figure *rotate(float angle) const;
 
+    static void initialize();
 
 private:
+    const static std::string PREFIX;
     Point _centre;
     double _rayon;
 };
-
 
 #endif //PATCHWORK_CIRCLE_H

@@ -7,35 +7,43 @@
 
 
 #include "figure.hpp"
+#include "point.hpp"
+#include <iostream>
 
 class Rectangle : public Figure {
 
 public:
-
-
     Rectangle(const Point &_origin, const Point &extremity)
             : _origin(_origin), _extremity(extremity) { }
 
-    virtual Figure *copy() const override;
+    Figure *copy() const;
 
-    virtual void show(ostream &stream) const override;
+    static Figure *decode(char **message);
 
-    virtual double getWidth() const override;
+    std::string encode() const;
 
-    virtual double getHeight() const override;
+    static bool decodable(char *message);
 
-    virtual Figure *scale(float factor) const override;
+    void show(ostream &stream) const;
 
-    virtual double area() const override;
+    double getWidth() const;
 
-    virtual double perimeter() const override;
+    double getHeight() const;
 
-    virtual Figure *rotate(float angle) const override;
+    Figure *scale(float factor) const;
+
+    double area() const;
+
+    double perimeter() const;
+
+    Figure *rotate(float angle) const;
+
+    static void initialize();
 
 private:
+    static const std::string PREFIX;
     Point _origin;
     Point _extremity;
 };
-
 
 #endif //PATCHWORK_RETANGLE_H

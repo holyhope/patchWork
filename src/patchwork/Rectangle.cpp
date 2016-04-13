@@ -5,8 +5,30 @@
 #include <cmath>
 #include "Rectangle.h"
 
+const std::string Rectangle::PREFIX = std::string("RECT");
+
 Figure *Rectangle::copy() const {
     return new Rectangle(this->_origin, this->_extremity);
+}
+
+Figure *Rectangle::decode(char **message) {
+    Point *origin, *extremity;
+    *message = *message + PREFIX.size();
+    origin = Point::decode(message);
+    extremity = Point::decode(message);
+    return new Rectangle(*origin, *extremity);
+}
+
+void Rectangle::initialize() {
+    Figure::registerFigure(Rectangle::decodable, Rectangle::decode);
+}
+
+std::string Rectangle::encode() const {
+    return PREFIX + _origin.encode() + _extremity.encode();
+}
+
+bool Rectangle::decodable(char *message) {
+    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
 }
 
 void Rectangle::show(ostream &stream) const {
@@ -54,13 +76,19 @@ Figure *Rectangle::rotate(float angle) const {
     float center_x = (_origin.getX() + _extremity.getX()) / 2.;
     float center_y = (_origin.getY() + _extremity.getY()) / 2.;
 
-    long Ax_new = lround(cos(radianAngle) * (_origin.getX()-center_x) - sin(radianAngle) * (_origin.getY()-center_y) + center_x);
-    long Ay_new = lround(sin(radianAngle) * (_origin.getX()-center_x) + cos(radianAngle) * (_origin.getY()-center_y) + center_y);
+    long Ax_new = lround(
+            cos(radianAngle) * (_origin.getX() - center_x) - sin(radianAngle) * (_origin.getY() - center_y) + center_x);
+    long Ay_new = lround(
+            sin(radianAngle) * (_origin.getX() - center_x) + cos(radianAngle) * (_origin.getY() - center_y) + center_y);
 
-    long Bx_new = lround(cos(radianAngle) * (_extremity.getX()-center_x) - sin(radianAngle) * (_extremity.getY()-center_y) + center_x);
-    long By_new = lround(sin(radianAngle) * (_extremity.getX()-center_x) + cos(radianAngle) * (_extremity.getY()-center_y) + center_y);
+    long Bx_new = lround(
+            cos(radianAngle) * (_extremity.getX() - center_x) - sin(radianAngle) * (_extremity.getY() - center_y) +
+            center_x);
+    long By_new = lround(
+            sin(radianAngle) * (_extremity.getX() - center_x) + cos(radianAngle) * (_extremity.getY() - center_y) +
+            center_y);
 
-    return new Rectangle(Point(Ax_new,Ay_new), Point(Bx_new,By_new));
+    return new Rectangle(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
 }
 
 

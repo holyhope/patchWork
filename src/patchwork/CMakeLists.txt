@@ -1,15 +1,25 @@
 cmake_minimum_required(VERSION 3.4)
 project(PatchWork)
 
-set(SOURCE_FILES
-        src/patchwork/Circle.cpp
-        src/patchwork/Circle.h
-        src/patchwork/figure.hpp
-        src/patchwork/Image.cpp
-        src/patchwork/Image.h
-        src/patchwork/Line.cpp
-        src/patchwork/Line.h
-        src/patchwork/point.hpp
-        src/patchwork/point.cpp
-        src/patchwork/Rectangle.cpp
-        src/patchwork/Rectangle.h)
+SET(PATCHWORK_LIB patchwork.h
+        patchwork.cpp
+        Circle.h
+        Circle.cpp
+        figure.hpp
+        figure.cpp
+        Image.h
+        Image.cpp
+        Line.h
+        Line.cpp
+        point.hpp
+        point.cpp
+        Rectangle.h
+        Rectangle.cpp)
+
+set(INCLUDE_DIR .)
+
+include_directories(${INCLUDE_DIR})
+
+set(SHARED_LIB_INCLUDE_DIR ${INCLUDE_DIR} PARENT_SCOPE)
+
+add_library(patchwork STATIC ${PATCHWORK_LIB})

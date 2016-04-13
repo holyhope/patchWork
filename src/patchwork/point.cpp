@@ -18,6 +18,19 @@ void Point::setY(int b) {
     _y = b;
 }
 
+Point *Point::decode(char **message) {
+    int x, y;
+    int ret = std::sscanf(*message, "%d|%d", &x, &y);
+    if (2 != ret) {
+        throw new std::runtime_error("No point in message");
+    }
+    return new Point(x, y);
+}
+
+std::string Point::encode() const {
+    return std::to_string(_x) + std::to_string(_y);
+}
+
 Point Point::operator+(const Point &p) const {
     return Point(_x + p._x, _y + p._y);
 }

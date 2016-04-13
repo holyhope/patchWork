@@ -4,6 +4,8 @@
 
 #include "Image.h"
 
+const std::string Image::PREFIX = std::string("IMG");
+
 Figure *Image::copy() const {
 
 
@@ -16,7 +18,42 @@ Figure *Image::copy() const {
         it++;
     }
     return image;
+}
 
+void Image::initialize() {
+    Figure::registerFigure(Image::decodable, Image::decode);
+}
+
+Figure *Image::decode(char **message) {
+    Image *image = new Image();
+    int nb;
+
+    *message = *message + PREFIX.size();
+
+    std::sscanf(*message, "[%d]", &nb);
+
+    for (; nb > 0; nb--) {
+        image->add(*Figure::decode(message));
+    }
+
+    return image;
+}
+
+std::string Image::encode() const {
+    std::string message = PREFIX + "[" + std::to_string(_figures.size()) + "]";
+
+    set<Figure *>::const_iterator it(_figures.begin());
+    set<Figure *>::const_iterator end(_figures.end());
+    while (it != end) {
+        message += (*it)->encode();
+        it++;
+    }
+
+    return message;
+}
+
+bool Image::decodable(char *message) {
+    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
 }
 
 void Image::add(const Figure &f) {
@@ -90,22 +127,3 @@ bool operator<(const Figure &left, const Figure &right) {
 Figure *Image::rotate(float angle) const {
     return nullptr;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
