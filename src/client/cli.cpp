@@ -3,6 +3,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <readline/history.h>
 
 #include "client.h"
 #include "../patchwork/Circle.h"
@@ -117,8 +118,15 @@ int startCli() {
             cout << "0.  Exit this awesome application" << endl;
             cout << endl;
 
-            cout << "Your choice : ";
-            cin >> choice_user;
+            do {
+                input = readline("Your choice : ");
+                try {
+                    choice_user = std::atoi(input);
+                } catch (const std::invalid_argument &e) {
+                    // Nothing to do
+                }
+            } while (0 > choice_user);
+            add_history(input);
 
         } while (!isValidChoice(choice_user, 0, maxChoice + 1, "Please, choose a correct choice."));
         maxChoice = 0;
@@ -233,6 +241,7 @@ int startCli() {
                 break;
             case 0:
                 finish = true;
+                clear_history();
                 break;
             default:
                 cout << "An error occur, sorry !" << endl;
