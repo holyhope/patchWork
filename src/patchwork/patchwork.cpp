@@ -10,22 +10,24 @@
 #include "Rectangle.h"
 #include "Polygon.h"
 
+#define BUFFER_SIZE 100
+
 void initializePatchwork() {
     std::setlocale(LC_ALL, "en_US.utf8");
 
     Line::initialize();
-    Circle::initialize();
     Image::initialize();
-    Rectangle::initialize();
+    Circle::initialize();
     Polygon::initialize();
+    Rectangle::initialize();
 }
 
 void terminatePatchwork() {
     Figure::clearRegisteredFigures();
 }
 
-bool startWith(std::istream &message, const std::string prefix) {
-    char buffer[100];
+bool startWith(std::istream &message, const std::string &prefix) {
+    char buffer[BUFFER_SIZE];
 
     message.get(buffer, prefix.size() + 1);
 

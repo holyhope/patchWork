@@ -5,6 +5,7 @@
 #include <set>
 #include <cmath>
 #include "Polygon.h"
+#include "patchwork.h"
 
 const std::string Polygon::PREFIX = std::string("POLY");
 
@@ -22,11 +23,9 @@ Figure *Polygon::copy() const {
 
 Figure *Polygon::decode(std::istream &message) {
     Polygon *poly = new Polygon();
-    char buffer[100];
     int size;
 
-    message.get(buffer, PREFIX.size() + strlen(":"));
-
+    message.ignore(PREFIX.size());
     message >> size;
 
     for (int i = 0; i < size; i++) {
@@ -39,7 +38,7 @@ Figure *Polygon::decode(std::istream &message) {
 }
 
 std::string Polygon::encode() const {
-    std::string encodePolygon = PREFIX + ":" + std::to_string(_points.size());
+    std::string encodePolygon = PREFIX + std::to_string(_points.size());
     for (auto p : _points) {
         encodePolygon += p->encode() + " ";
     }
@@ -47,9 +46,7 @@ std::string Polygon::encode() const {
 }
 
 bool Polygon::decodable(std::istream &message) {
-    char buffer[100];
-    message.get(buffer, PREFIX.size());
-    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
+    return startWith(message, PREFIX);
 }
 
 void Polygon::show(std::ostream &stream) const {

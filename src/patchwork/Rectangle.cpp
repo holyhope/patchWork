@@ -4,6 +4,7 @@
 
 #include <cmath>
 #include "Rectangle.h"
+#include "patchwork.h"
 
 const std::string Rectangle::PREFIX = std::string("RECT");
 
@@ -13,10 +14,11 @@ Figure *Rectangle::copy() const {
 
 Figure *Rectangle::decode(std::istream &message) {
     Point *origin, *extremity;
-    char buffer[100];
-    message.get(buffer, PREFIX.size());
+
+    message.ignore(PREFIX.size());
     origin = Point::decode(message);
     extremity = Point::decode(message);
+
     return new Rectangle(*origin, *extremity);
 }
 
@@ -29,9 +31,7 @@ std::string Rectangle::encode() const {
 }
 
 bool Rectangle::decodable(std::istream &message) {
-    char buffer[100];
-    message.get(buffer, PREFIX.size());
-    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
+    return startWith(message, PREFIX);
 }
 
 void Rectangle::show(std::ostream &stream) const {

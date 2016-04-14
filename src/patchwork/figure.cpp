@@ -28,10 +28,6 @@ bool Figure::operator==(const Figure &f) const {
     return (this == &f);
 }
 
-std::string Figure::encode(Figure &figure) {
-    return figure.encode();
-}
-
 Figure *Figure::decode(std::istream &message) {
     std::fpos<mbstate_t> pos;
     FigureList *list;

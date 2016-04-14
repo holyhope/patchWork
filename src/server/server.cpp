@@ -49,30 +49,34 @@ void Server::start() {
         std::cout << "=> Connected with the client #" << clientCount << std::endl;
 
         sprintf(buffer, "Serveur %s\n", SERVER_VERSION);
-        send(_socket, buffer, BUFFER_SIZE, 0);
+        send(_socket, buffer, BUFFER_SIZE * sizeof(char), 0);
 
+        std::memset(buffer, '\0', BUFFER_SIZE * sizeof(char));
         received = recv(_socket, buffer, BUFFER_SIZE - 1, 0);
         if (0 > received) {
             std::cerr << "Error with client #" << clientCount << std::endl;
         } else {
-            buffer[received] = '\0';
             std::istringstream in(buffer);
             try {
-                image.add(*Figure::decode(in));
+                Figure *imageTmp = Figure::decode(in);
+                std::cout << imageTmp->encode() << std::endl;
+                image.add(*imageTmp);
                 message = image.encode();
-                send(_socket, message.c_str(), message.size(), 0);
+                send(_socket, message.c_str(), message.size() * sizeof(char), 0);
             } catch (const std::exception &e) {
                 std::cerr << e.what() << std::endl << " >>\t" << buffer << std::endl;
                 std::cerr << " >>\t";
+
                 while (in.good()) {
                     char c;
-                    
+
                     in.get(c);
                     if (!in.eof()) {
                         std::cerr << c;
                     }
                 }
-                std::cout << std::endl;
+
+                std::cerr << std::endl;
             }
         }
 

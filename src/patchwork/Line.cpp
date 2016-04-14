@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdio>
 #include "Line.h"
+#include "patchwork.h"
 
 const std::string Line::PREFIX = std::string("LINE");
 
@@ -36,9 +37,8 @@ void Line::initialize() {
 
 Figure *Line::decode(std::istream &message) {
     Point *p1, *p2;
-    char buffer[100];
 
-    message.get(buffer, PREFIX.size());
+    message.ignore(PREFIX.size());
     p1 = Point::decode(message);
     p2 = Point::decode(message);
 
@@ -50,9 +50,7 @@ std::string Line::encode() const {
 }
 
 bool Line::decodable(std::istream &message) {
-    char buffer[100];
-    message.get(buffer, PREFIX.size());
-    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
+    return startWith(message, PREFIX);
 }
 
 double Line::getHeight() const {

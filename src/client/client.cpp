@@ -33,8 +33,9 @@ void Client::start() {
 }
 
 void Client::sendFigure(Figure &figure) const {
-    std::string buffer = Figure::encode(figure);
-    send(client, buffer.c_str(), buffer.size(), 0);
+    std::string buffer = figure.encode();
+    std::cout << buffer << std::endl;
+    send(client, buffer.c_str(), buffer.size() * sizeof(char), 0);
 }
 
 Image Client::getImage() const {

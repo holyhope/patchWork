@@ -25,7 +25,6 @@ public:
     Image(const Image &image);
 
 
-
     void add(const Figure &f);
 
     Figure *copy() const;
@@ -69,7 +68,7 @@ public:
 
     static void initialize();
 
-    int getCount();
+    int getCount() const;
 
     Figure *get(int i) const;
 

@@ -4,12 +4,11 @@
 
 #include <string.h>
 #include "Image.h"
+#include "patchwork.h"
 
 const std::string Image::PREFIX = std::string("IMG");
 
 Figure *Image::copy() const {
-
-
     Image *image = new Image();
 
     std::set<Figure *>::const_iterator it(_figures.begin());
@@ -18,6 +17,7 @@ Figure *Image::copy() const {
         image->add(*((*it)->copy()));
         it++;
     }
+
     return image;
 }
 
@@ -43,10 +43,13 @@ std::ostream &operator<<(std::ostream &os, const Image &image) {
 Figure *Image::decode(std::istream &stream) {
     Image *image = new Image();
     int nb;
-    char buffer[100];
 
-    stream.get(buffer, PREFIX.size() + strlen(":"));
+    stream.ignore(PREFIX.size());
     stream >> nb;
+
+    if (!stream.good()) {
+        throw std::invalid_argument("Not an image");
+    }
 
     for (; nb > 0; nb--) {
         image->add(*Figure::decode(stream));
@@ -56,7 +59,7 @@ Figure *Image::decode(std::istream &stream) {
 }
 
 std::string Image::encode() const {
-    std::string message = PREFIX + ":" + std::to_string(_figures.size());
+    std::string message = PREFIX + std::to_string(getCount());
 
     std::set<Figure *>::const_iterator it(_figures.begin());
     std::set<Figure *>::const_iterator end(_figures.end());
@@ -69,26 +72,16 @@ std::string Image::encode() const {
 }
 
 bool Image::decodable(std::istream &message) {
-    char buffer[100];
-    message.get(buffer, PREFIX.size() + 1);
-    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
+    return startWith(message, PREFIX);
 }
 
 void Image::add(const Figure &f) {
     if (f == *this)
         return;
 
-    if (dynamic_cast<const Image *>(&f) != 0) {
-        if (area() < f.area()) {
-            std::cout << "Can't add larger image than the current image!" << std::endl;
-            return;
-        }
-    }
-
     if (_count == IMAGE_MAX) {
         std::cerr << "Image is full " << std::endl;
-    }
-    else {
+    } else {
         unsigned long tmp_size = _figures.size();
         _figures.insert((const_cast<Figure *> (&f)));
         unsigned long actual_size = _figures.size();
@@ -161,7 +154,7 @@ Figure *Image::rotate(float angle, double center_x, double center_y) const {
     return newImage;
 }
 
-int Image::getCount() {
+int Image::getCount() const {
     return _count;
 }
 

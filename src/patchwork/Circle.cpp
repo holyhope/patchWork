@@ -4,6 +4,7 @@
 
 #include <math.h>
 #include "Circle.h"
+#include "patchwork.h"
 
 const std::string Circle::PREFIX = std::string("CIRC");
 
@@ -20,10 +21,9 @@ void Circle::show(std::ostream &stream) const {
 
 Figure *Circle::decode(std::istream &message) {
     double rayon;
-    char buffer[100];
     Point *center;
 
-    message.get(buffer, PREFIX.size() + strlen(":"));
+    message.ignore(PREFIX.size());
     message >> rayon;
     center = Point::decode(message);
 
@@ -31,9 +31,7 @@ Figure *Circle::decode(std::istream &message) {
 }
 
 bool Circle::decodable(std::istream &message) {
-    char buffer[100];
-    message.get(buffer, PREFIX.size());
-    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
+    return startWith(message, PREFIX);
 }
 
 double Circle::getWidth() const {
@@ -41,7 +39,7 @@ double Circle::getWidth() const {
 }
 
 std::string Circle::encode() const {
-    return PREFIX + ":" + std::to_string(_rayon) + _centre.encode();
+    return PREFIX + std::to_string(_rayon) + _centre.encode();
 }
 
 void Circle::initialize() {

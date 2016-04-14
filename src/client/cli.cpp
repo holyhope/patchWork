@@ -97,9 +97,10 @@ int startCli() {
     cout << "*                                        *" << endl;
     cout << "******************************************" << endl << endl;
 
+    cout << "What do you want to do ?" << endl;
+
     while (!finish) {
         do {
-            cout << "What do you want to do ?" << endl;
             cout << endl << "   **** Draw ****" << endl;
             cout << to_string(++maxChoice) << ".  Draw an Image" << endl;
             cout << to_string(++maxChoice) << ".  Draw a Line" << endl;
@@ -117,6 +118,12 @@ int startCli() {
             cout << to_string(++maxChoice) << ". Import from import.txt" << endl;
             cout << "0.  Exit this awesome application" << endl;
             cout << endl;
+
+            if (0 < image.getCount()) {
+                cout << image.encode() << endl;
+            } else {
+                cout << "Empty image" << endl;
+            }
 
             do {
                 input = readline("Your choice : ");
@@ -237,9 +244,13 @@ int startCli() {
                     client.start();
                     client.sendFigure(image);
                     image = client.getImage();
-                    client.stop();
                 } catch (const std::exception &e) {
                     cerr << e.what() << endl;
+                }
+                try {
+                    client.stop();
+                } catch (const std::exception &e) {
+                    // Nothing todo
                 }
                 break;
             case 11:

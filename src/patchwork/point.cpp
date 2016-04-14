@@ -21,11 +21,10 @@ void Point::setY(int b) {
 
 Point *Point::decode(std::istream &message) {
     int x, y;
-    char buffer[100];
 
-    message.get(buffer, PREFIX.size());
+    message.ignore(PREFIX.size());
     message >> x;
-    message.get(buffer, strlen(":"));
+    message.ignore(strlen(":"));
     message >> y;
 
     return new Point(x, y);

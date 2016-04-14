@@ -7,7 +7,7 @@
 
 #include <string>
 
-bool startWith(char *buffer, std::string prefix);
+bool startWith(std::istream &message, const std::string &prefix);
 
 void initializePatchwork();
 

@@ -28,8 +28,6 @@ public:
      */
     virtual void show(std::ostream &stream) const = 0;
 
-    static std::string encode(Figure &figure);
-
     static Figure *decode(std::istream &message);
 
     static void registerFigure(decodableMethod *decodable, decodeMethod *decode);
