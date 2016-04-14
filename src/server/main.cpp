@@ -3,104 +3,46 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <unistd.h>
+#include "server.h"
 #include "../patchwork/patchwork.h"
-#include "../patchwork/Image.h"
 
-#define BUFFER_SIZE 4096
-
-#define SERVER_VERSION "v1"
-
-using namespace std;
-
-int client;
-bool isExit = false;
+Server *server;
 
 void signal_callback_handler(int signum) {
     switch (signum) {
         case SIGTERM:
         case SIGINT:
-            cout << " => Shutting down server..." << endl;
-            isExit = true;
-            close(client);
+            std::cout << " => Shutting down server..." << std::endl;
+            server->stop();
             break;
         default:
-            cout << "Signal " << signum << " caught" << endl;
+            std::cout << "Signal " << signum << " caught" << std::endl;
             break;
     }
 }
 
-int main() {
-    Image image;
-
+int main(int argc, const char *argv[]) {
     initializePatchwork();
 
-    int server;
     int portNum = 1500;
-    char buffer[BUFFER_SIZE];
-    string message;
 
     struct sockaddr_in server_addr;
-    socklen_t size;
-
-    client = socket(AF_INET, SOCK_STREAM, 0);
-
-    if (client < 0) {
-        throw std::runtime_error("Error establishing socket");
-    }
-
-    cout << endl << "=> Socket server has been created..." << endl;
 
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htons(INADDR_ANY);
     server_addr.sin_port = htons(portNum);
 
-    if (0 > _SYS_SOCKET_H_::bind(client, (struct sockaddr *) &server_addr, sizeof(server_addr))) {
-        throw std::runtime_error("Error binding connection, the socket has already been established");
-    }
-
-    size = sizeof(server_addr);
-    cout << "=> Looking for clients..." << endl;
-
-    listen(client, 1);
-
-    /* ------------- ACCEPTING CLIENTS  ------------- */
-    /* ----------------- listen() ------------------- */
-
-    int clientCount = 1;
+    server = new Server(server_addr);
 
     signal(SIGINT, signal_callback_handler);
 
-    while (!isExit) {
-        server = accept(client, (struct sockaddr *) &server_addr, &size);
-
-        // first check if it is valid or not
-        if (server < 0) {
-            cerr << "=> Error on accepting..." << endl;
-        } else {
-            cout << "=> Connected with the client #" << clientCount << endl;
-
-            sprintf(buffer, "Serveur %s\n", SERVER_VERSION);
-            send(server, buffer, BUFFER_SIZE, 0);
-
-            if (0 > recv(server, buffer, BUFFER_SIZE, 0)) {
-                cerr << "Error with client #" << clientCount << endl;
-            } else {
-                char *tmp = buffer;
-                image.add(*Figure::decode(&tmp));
-                message = image.encode();
-                send(server, message.c_str(), message.size(), 0);
-            }
-
-            if (0 > close(server)) {
-                cerr << "Cannot close connection with #" << clientCount << endl;
-            } else {
-                cout << endl << "=> Connection terminated with IP " << string(inet_ntoa(server_addr.sin_addr)) << endl;
-            }
-        }
-
-        close(client);
+    try {
+        server->start();
+    } catch (const std::runtime_error &e) {
+        std::cerr << e.what() << std::endl;
     }
+
+    terminatePatchwork();
 
     return 0;
 }

@@ -3,6 +3,7 @@
 //
 
 #include <iostream>
+#include <string>
 #include "figure.hpp"
 
 typedef struct _figureList {
@@ -15,7 +16,7 @@ typedef struct _figureList {
 
 FigureList *registeredFigures = NULL;
 
-ostream &operator<<(ostream &os, const Figure &figure) {
+std::ostream &operator<<(std::ostream &os, const Figure &figure) {
     os << "Undefined figure";
     return os;
 }
@@ -28,16 +29,21 @@ std::string Figure::encode(Figure &figure) {
     return figure.encode();
 }
 
-Figure *Figure::decode(char **message) {
+Figure *Figure::decode(std::istream &message) {
+    std::fpos<mbstate_t> pos;
     FigureList *list;
+    bool decodable;
 
     for (list = registeredFigures; list != NULL; list = list->next) {
-        if (list->decodable(*message)) {
+        pos = message.tellg();
+        decodable = list->decodable(message);
+        message.seekg(pos);
+        if (decodable) {
             return list->decode(message);
         }
     }
 
-    throw new std::runtime_error("Figure is not registrered");
+    throw std::invalid_argument("No figure found");
 }
 
 void Figure::registerFigure(decodableMethod *decodable, decodeMethod *decode) {

@@ -1,6 +1,5 @@
+#include <iosfwd>
 #include "point.hpp"
-
-#include <iostream>
 
 int Point::getX() const {
     return _x;
@@ -18,12 +17,12 @@ void Point::setY(int b) {
     _y = b;
 }
 
-Point *Point::decode(char **message) {
+Point *Point::decode(std::istream &message) {
     int x, y;
-    int ret = std::sscanf(*message, "%d|%d", &x, &y);
-    if (2 != ret) {
-        throw new std::runtime_error("No point in message");
-    }
+    char buffer[100];
+    message >> x;
+    message.get(buffer, strlen(":"));
+    message >> y;
     return new Point(x, y);
 }
 

@@ -21,3 +21,11 @@ void initializePatchwork() {
 void terminatePatchwork() {
     Figure::clearRegisteredFigures();
 }
+
+bool startWith(std::istream &message, const std::string prefix) {
+    char buffer[100];
+
+    message.get(buffer, prefix.size() + 1);
+
+    return 0 == prefix.compare(0, prefix.size(), buffer);
+}

@@ -8,11 +8,9 @@ typedef char *color;
 
 class Figure;
 
-typedef Figure *decodeMethod(char **msg);
+typedef Figure *decodeMethod(std::istream &msg);
 
-typedef bool decodableMethod(char *msg);
-
-using namespace std;
+typedef bool decodableMethod(std::istream &msg);
 
 class Figure {
 
@@ -30,11 +28,11 @@ public:
     /**
      * Display an ASCII figure on the output stream.
      */
-    virtual void show(ostream &stream) const = 0;
+    virtual void show(std::ostream &stream) const = 0;
 
     static std::string encode(Figure &figure);
 
-    static Figure *decode(char **message);
+    static Figure *decode(std::istream &message);
 
     static void registerFigure(decodableMethod *decodable, decodeMethod *decode);
 

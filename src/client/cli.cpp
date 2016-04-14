@@ -10,7 +10,7 @@
 #include "../patchwork/Rectangle.h"
 #include "../patchwork/Line.h"
 
-#define BUFFER_SIZE 4096
+using namespace std;
 
 void askCoordinate(int &pointX1, string whichCoord);
 
@@ -18,8 +18,6 @@ void showImageWithIndex(Image image);
 
 template<typename Type>
 bool isValidChoice(Type choice, int boundM, int boundP, string errorMessage);
-
-using namespace std;
 
 void test1() {
     Circle circle(Point(0, 0), 3.);
@@ -65,16 +63,15 @@ void test1() {
 }
 
 int startCli() {
-    //test1();
     std::ofstream ofile;
     std::ifstream ifile;
 
     int choice_user = -1;
     int maxChoice = 0;
     bool finish = false;
-    char buffer[BUFFER_SIZE];
     struct sockaddr_in server_addr;
     int portNum = 1500;
+    char *input;
     std::string ip = "127.0.0.1";
 
     server_addr.sin_family = AF_INET;
@@ -91,11 +88,11 @@ int startCli() {
             pointY2 = 0;
     float radius;
 
-    cout << "*****************************************" << endl;
-    cout << "*                                       *" << endl;
+    cout << "******************************************" << endl;
+    cout << "*                                        *" << endl;
     cout << "* Welcome to the Patchwork application ! *" << endl;
-    cout << "*                                       *" << endl;
-    cout << "*****************************************\n\n" << endl;
+    cout << "*                                        *" << endl;
+    cout << "******************************************" << endl << endl;
 
     while (!finish) {
         do {
@@ -234,9 +231,8 @@ int startCli() {
                 break;
             case 12:
                 ifile.open("import.txt");
-                ifile.get(buffer, BUFFER_SIZE);
+                image.add(*Figure::decode(ifile));
                 ifile.close();
-                image.add(*Figure::decode((char **) &buffer));
                 cout << "Imported from " << "import.txt" << endl;
                 break;
             case 0:

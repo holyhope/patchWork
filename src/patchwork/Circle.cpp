@@ -13,21 +13,26 @@ Figure *Circle::copy() const {
     return new Circle(this->_centre, this->_rayon);
 }
 
-void Circle::show(ostream &stream) const {
+void Circle::show(std::ostream &stream) const {
     stream << "Circle(Center:" << _centre << ", Radius;" << _rayon << ")";
 }
 
-Figure *Circle::decode(char **message) {
-    int rayon;
+Figure *Circle::decode(std::istream &message) {
+    double rayon;
+    char buffer[100];
     Point *center;
-    *message = *message + PREFIX.size();
+
+    message.get(buffer, PREFIX.size() + strlen(":"));
+    message >> rayon;
     center = Point::decode(message);
-    std::sscanf(*message, ":%d", &rayon);
+
     return new Circle(*center, rayon);
 }
 
-bool Circle::decodable(char *message) {
-    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
+bool Circle::decodable(std::istream &message) {
+    char buffer[100];
+    message.get(buffer, PREFIX.size());
+    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
 }
 
 double Circle::getWidth() const {
@@ -35,7 +40,7 @@ double Circle::getWidth() const {
 }
 
 std::string Circle::encode() const {
-    return PREFIX + _centre.encode() + ":" + std::to_string(_rayon);
+    return PREFIX + ":" + std::to_string(_rayon) + _centre.encode();
 }
 
 void Circle::initialize() {

@@ -17,7 +17,7 @@ std::ostream &operator<<(std::ostream &os, const Line &l) {
     return os;
 }
 
-void Line::show(ostream &stream) const {
+void Line::show(std::ostream &stream) const {
     stream << "Line(A:" << this->_A << ", B:" << this->_B << ")";
 }
 
@@ -34,11 +34,14 @@ void Line::initialize() {
     Figure::registerFigure(Line::decodable, Line::decode);
 }
 
-Figure *Line::decode(char **message) {
+Figure *Line::decode(std::istream &message) {
     Point *p1, *p2;
-    *message = *message + PREFIX.size();
+    char buffer[100];
+
+    message.get(buffer, PREFIX.size());
     p1 = Point::decode(message);
     p2 = Point::decode(message);
+
     return new Line(*p1, *p2);
 }
 
@@ -46,8 +49,10 @@ std::string Line::encode() const {
     return PREFIX + _A.encode() + _B.encode();
 }
 
-bool Line::decodable(char *message) {
-    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
+bool Line::decodable(std::istream &message) {
+    char buffer[100];
+    message.get(buffer, PREFIX.size());
+    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
 }
 
 double Line::getHeight() const {

@@ -4,6 +4,7 @@
 
 #include <sys/socket.h>
 #include <unistd.h>
+#include <sstream>
 
 #include "client.h"
 
@@ -18,9 +19,6 @@ void Client::start() {
 
     client = socket(AF_INET, SOCK_STREAM, 0);
 
-    /* ---------- ESTABLISHING SOCKET CONNECTION ----------*/
-    /* --------------- socket() function ------------------*/
-
     if (client < 0) {
         throw std::runtime_error("Error establishing socket");
     }
@@ -32,23 +30,21 @@ void Client::start() {
     started = true;
 
     recv(client, buffer, BUFFER_SIZE, 0);
-    std::cout << "=> Connected to " << buffer << endl;
 }
 
 void Client::sendFigure(Figure &figure) const {
-    string buffer = Figure::encode(figure);
+    std::string buffer = Figure::encode(figure);
     send(client, buffer.c_str(), buffer.size(), 0);
 }
 
 Image Client::getImage() const {
-    char buffer[BUFFER_SIZE], *b;
+    char buffer[BUFFER_SIZE];
     recv(client, buffer, BUFFER_SIZE - 1, 0);
 
     buffer[BUFFER_SIZE - 1] = '\0';
+    std::istringstream in(buffer);
 
-    b = buffer;
-
-    return *(Image *) Image::decode(&b);
+    return *(Image *) Image::decode(in);
 }
 
 void Client::stop() {

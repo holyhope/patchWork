@@ -20,7 +20,7 @@ public:
 
     void setY(int b);
 
-    static Point *decode(char **message);
+    static Point *decode(std::istream &message);
 
     std::string encode() const;
 

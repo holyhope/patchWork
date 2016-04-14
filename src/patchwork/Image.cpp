@@ -2,6 +2,7 @@
 // Created by Pichou Maxime on 29/03/2016.
 //
 
+#include <string.h>
 #include "Image.h"
 
 const std::string Image::PREFIX = std::string("IMG");
@@ -11,8 +12,8 @@ Figure *Image::copy() const {
 
     Image *image = new Image();
 
-    set<Figure *>::const_iterator it(_figures.begin());
-    set<Figure *>::const_iterator end(_figures.end());
+    std::set<Figure *>::const_iterator it(_figures.begin());
+    std::set<Figure *>::const_iterator end(_figures.end());
     while (it != end) {
         image->add(*((*it)->copy()));
         it++;
@@ -24,26 +25,27 @@ void Image::initialize() {
     Figure::registerFigure(Image::decodable, Image::decode);
 }
 
-Figure *Image::decode(char **message) {
+Figure *Image::decode(std::istream &stream) {
     Image *image = new Image();
     int nb;
+    char buffer[100];
 
-    *message = *message + PREFIX.size();
+    stream.get(buffer, PREFIX.size() + strlen(":"));
+    stream >> nb;
 
-    std::sscanf(*message, "[%d]", &nb);
-
+    std::cout << "nommbre de figures : " << nb << std::endl;
     for (; nb > 0; nb--) {
-        image->add(*Figure::decode(message));
+        image->add(*Figure::decode(stream));
     }
 
     return image;
 }
 
 std::string Image::encode() const {
-    std::string message = PREFIX + "[" + std::to_string(_figures.size()) + "]";
+    std::string message = PREFIX + ":" + std::to_string(_figures.size());
 
-    set<Figure *>::const_iterator it(_figures.begin());
-    set<Figure *>::const_iterator end(_figures.end());
+    std::set<Figure *>::const_iterator it(_figures.begin());
+    std::set<Figure *>::const_iterator end(_figures.end());
     while (it != end) {
         message += (*it)->encode();
         it++;
@@ -52,8 +54,10 @@ std::string Image::encode() const {
     return message;
 }
 
-bool Image::decodable(char *message) {
-    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
+bool Image::decodable(std::istream &message) {
+    char buffer[100];
+    message.get(buffer, PREFIX.size() + 1);
+    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
 }
 
 void Image::add(const Figure &f) {
@@ -62,13 +66,13 @@ void Image::add(const Figure &f) {
 
     if (dynamic_cast<const Image *>(&f) != 0) {
         if (area() < f.area()) {
-            cout << "Can't add larger image than the current image!" << endl;
+            std::cout << "Can't add larger image than the current image!" << std::endl;
             return;
         }
     }
 
     if (_count == IMAGE_MAX) {
-        cerr << "Image is full " << endl;
+        std::cerr << "Image is full " << std::endl;
     }
     else {
         unsigned long tmp_size = _figures.size();
@@ -80,9 +84,9 @@ void Image::add(const Figure &f) {
     }
 }
 
-void Image::show(ostream &stream) const {
+void Image::show(std::ostream &stream) const {
 
-    stream << "Image contains " << this->_count << "figures" << endl;
+    stream << "Image contains " << this->_count << "figures" << std::endl;
 }
 
 /*

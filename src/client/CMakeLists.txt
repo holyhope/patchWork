@@ -5,9 +5,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
 
 set(SOURCE_FILES main.cpp
         cli.cpp
+        cli.h
         client.cpp
-        client.h cli.h)
+        client.h)
 
 add_executable(client ${SOURCE_FILES})
 
-target_link_libraries(client patchwork)
+target_link_libraries(client patchwork readline)

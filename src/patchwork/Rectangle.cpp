@@ -11,9 +11,10 @@ Figure *Rectangle::copy() const {
     return new Rectangle(this->_origin, this->_extremity);
 }
 
-Figure *Rectangle::decode(char **message) {
+Figure *Rectangle::decode(std::istream &message) {
     Point *origin, *extremity;
-    *message = *message + PREFIX.size();
+    char buffer[100];
+    message.get(buffer, PREFIX.size());
     origin = Point::decode(message);
     extremity = Point::decode(message);
     return new Rectangle(*origin, *extremity);
@@ -27,11 +28,13 @@ std::string Rectangle::encode() const {
     return PREFIX + _origin.encode() + _extremity.encode();
 }
 
-bool Rectangle::decodable(char *message) {
-    return 0 == PREFIX.compare(0, PREFIX.size(), string(message));
+bool Rectangle::decodable(std::istream &message) {
+    char buffer[100];
+    message.get(buffer, PREFIX.size());
+    return 0 == PREFIX.compare(0, PREFIX.size(), buffer);
 }
 
-void Rectangle::show(ostream &stream) const {
+void Rectangle::show(std::ostream &stream) const {
     stream << "Rectangle(Origin:" << this->_origin << ", Extremity:" << this->_extremity << ")";
 }
 

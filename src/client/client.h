@@ -23,7 +23,7 @@ public:
 
     Image getImage() const;
 
-protected:
+private:
     struct sockaddr_in server_addr;
     bool started = false;
     int client;

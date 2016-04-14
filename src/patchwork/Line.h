@@ -17,13 +17,13 @@ public:
 
     Figure *copy() const;
 
-    static Figure *decode(char **message);
+    static Figure *decode(std::istream &message);
 
     std::string encode() const;
 
-    static bool decodable(char *message);
+    static bool decodable(std::istream &message);
 
-    void show(ostream &stream) const;
+    void show(std::ostream &stream) const;
 
     double getWidth() const;
 
