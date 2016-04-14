@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <string>
 #include "figure.hpp"
 
 typedef struct _figureList {
@@ -16,8 +15,12 @@ typedef struct _figureList {
 
 FigureList *registeredFigures = NULL;
 
-std::ostream &operator<<(std::ostream &os, const Figure &figure) {
+void Figure::show(std::ostream &os) const {
     os << "Undefined figure";
+}
+
+std::ostream &operator<<(std::ostream &os, const Figure &figure) {
+    figure.show(os);
     return os;
 }
 

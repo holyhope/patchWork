@@ -1,6 +1,8 @@
 #include <iosfwd>
 #include "point.hpp"
 
+const std::string Point::PREFIX = "P";
+
 int Point::getX() const {
     return _x;
 }
@@ -20,14 +22,17 @@ void Point::setY(int b) {
 Point *Point::decode(std::istream &message) {
     int x, y;
     char buffer[100];
+
+    message.get(buffer, PREFIX.size());
     message >> x;
     message.get(buffer, strlen(":"));
     message >> y;
+
     return new Point(x, y);
 }
 
 std::string Point::encode() const {
-    return std::to_string(_x) + std::to_string(_y);
+    return PREFIX + std::to_string(_x) + ":" + std::to_string(_y);
 }
 
 Point Point::operator+(const Point &p) const {
@@ -37,12 +42,14 @@ Point Point::operator+(const Point &p) const {
 Point &Point::operator+=(const Point &p) {
     _x += p._x;
     _y += p._y;
+
     return *this;
 }
 
 Point &Point::operator=(const Point &p) {
-    if (this == &p)
+    if (this == &p) {
         return *this;
+    }
 
     _x = p._x;
     _y = p._y;

@@ -21,8 +21,23 @@ Figure *Image::copy() const {
     return image;
 }
 
+Image::Image(const Image &image) :
+        _origin(image._origin), _figures(), _count(0) {
+    std::set<Figure *>::const_iterator it(image._figures.begin());
+    std::set<Figure *>::const_iterator end(image._figures.end());
+    while (it != end) {
+        add(*((*it)->copy()));
+        ++it;
+    }
+}
+
 void Image::initialize() {
     Figure::registerFigure(Image::decodable, Image::decode);
+}
+
+std::ostream &operator<<(std::ostream &os, const Image &image) {
+    image.show(os);
+    return os;
 }
 
 Figure *Image::decode(std::istream &stream) {
@@ -33,7 +48,6 @@ Figure *Image::decode(std::istream &stream) {
     stream.get(buffer, PREFIX.size() + strlen(":"));
     stream >> nb;
 
-    std::cout << "nommbre de figures : " << nb << std::endl;
     for (; nb > 0; nb--) {
         image->add(*Figure::decode(stream));
     }
@@ -89,47 +103,62 @@ void Image::show(std::ostream &stream) const {
     stream << "Image contains " << this->_count << "figures" << std::endl;
 }
 
-/*
- * TODO
- */
+
 double Image::getWidth() const {
-    return 0;
+    double maxWidth = 0;
+    for (auto f : _figures) {
+        if (f->getWidth() > maxWidth) {
+            maxWidth = f->getWidth();
+        }
+    }
+    return maxWidth;
 }
 
-/*
- * TODO
- */
+
 double Image::getHeight() const {
-    return 0;
+    double maxHeight = 0;
+    for (auto f : _figures) {
+        if (f->getHeight() > maxHeight) {
+            maxHeight = f->getHeight();
+        }
+    }
+    return maxHeight;
 }
 
-/*
- * TODO
- */
 Figure *Image::scale(float factor) const {
-    return nullptr;
+    Image *newImage = new Image(this->_origin);
+    for (auto f : _figures) {
+        newImage->add(*f->scale(factor));
+    }
+    return newImage;
 }
 
-/*
- * TODO
- */
 double Image::area() const {
-    return 0;
+    double totalArea = 0;
+    for (auto f : _figures) {
+        totalArea += f->area();
+    }
+    return totalArea;
 }
 
-/*
- * TODO
- */
 double Image::perimeter() const {
-    return 0;
+    double totalPerimeter = 0;
+    for (auto f : _figures) {
+        totalPerimeter += f->perimeter();
+    }
+    return totalPerimeter;
 }
 
 bool operator<(const Figure &left, const Figure &right) {
     return left.getWidth() < right.getWidth() && left.getHeight() < right.getHeight();
 }
 
-Figure *Image::rotate(float angle) const {
-    return nullptr;
+Figure *Image::rotate(float angle, double center_x, double center_y) const {
+    Image *newImage = new Image(this->_origin);
+    for (auto f : _figures) {
+        newImage->add(*f->rotate(angle, center_x, center_y));
+    }
+    return newImage;
 }
 
 int Image::getCount() {
@@ -137,6 +166,10 @@ int Image::getCount() {
 }
 
 Figure *Image::get(int i) const {
-    return *std::next(_figures.begin(), i);
+    if (i >= 0 && i < _count) {
+        return *std::next(_figures.begin(), i);
+    }
+    return 0;
+
 }
 

@@ -71,13 +71,10 @@ double Rectangle::perimeter() const {
     return 2 * getWidth() + 2 * getHeight();
 }
 
-/*
- * TODO
- */
-Figure *Rectangle::rotate(float angle) const {
-    float radianAngle = angle / 180.0 * M_PI;
-    float center_x = (_origin.getX() + _extremity.getX()) / 2.;
-    float center_y = (_origin.getY() + _extremity.getY()) / 2.;
+Figure *Rectangle::rotate(float angle, double center_x, double center_y) const {
+    double radianAngle = angle / 180.0 * M_PI;
+    center_x = (_origin.getX() + _extremity.getX()) / 2.;
+    center_y = (_origin.getY() + _extremity.getY()) / 2.;
 
     long Ax_new = lround(
             cos(radianAngle) * (_origin.getX() - center_x) - sin(radianAngle) * (_origin.getY() - center_y) + center_x);
@@ -93,18 +90,3 @@ Figure *Rectangle::rotate(float angle) const {
 
     return new Rectangle(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

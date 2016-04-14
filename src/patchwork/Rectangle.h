@@ -36,7 +36,7 @@ public:
 
     double perimeter() const;
 
-    Figure *rotate(float angle) const;
+    Figure *rotate(float angle, double center_x, double center_y) const;
 
     static void initialize();
 

@@ -1,19 +1,17 @@
 //
-// Created by Pichou Maxime on 29/03/2016.
+// Created by Pichou Maxime on 14/04/2016.
 //
 
-#ifndef PATCHWORK_LINE_H
-#define PATCHWORK_LINE_H
+#ifndef PATCHWORK_POLYGON_H
+#define PATCHWORK_POLYGON_H
 
-
+#include <vector>
 #include "figure.hpp"
-#include "point.hpp"
-#include <iostream>
 
-class Line : public Figure {
+class Polygon : public Figure {
 public:
-    Line(const Point &_origin, const Point &_extremity)
-            : _A(_origin), _B(_extremity) { }
+    Polygon()
+            : _points() { }
 
     Figure *copy() const;
 
@@ -39,10 +37,12 @@ public:
 
     static void initialize();
 
+    void addPoint(const Point &p);
+
 private:
     static const std::string PREFIX;
-    Point _A;
-    Point _B;
+    std::vector<Point *> _points;
 };
 
-#endif //PATCHWORK_LINE_H
+
+#endif //PATCHWORK_POLYGON_H

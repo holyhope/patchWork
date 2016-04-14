@@ -6,6 +6,7 @@
 #define PATCHWORK_POINT_HPP
 
 #include <iostream>
+#include <iosfwd>
 
 class Point {
 public:
@@ -32,6 +33,7 @@ public:
 
 private:
     int _x, _y;
+    static const std::string PREFIX;
 
     friend std::ostream &operator<<(std::ostream &os, const Point &p);
 };

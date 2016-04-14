@@ -66,6 +66,7 @@ void Server::start() {
                 std::cerr << " >>\t";
                 while (in.good()) {
                     char c;
+                    
                     in.get(c);
                     if (!in.eof()) {
                         std::cerr << c;

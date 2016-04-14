@@ -4,11 +4,13 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <readline/history.h>
+#include <vector>
 
 #include "client.h"
 #include "../patchwork/Circle.h"
 #include "../patchwork/Rectangle.h"
 #include "../patchwork/Line.h"
+#include "../patchwork/Polygon.h"
 
 using namespace std;
 
@@ -44,7 +46,7 @@ void test1() {
     cout << "Width : " << line2->getWidth() << " Height " << line2->getHeight() << endl;
     cout << "Area: " << line2->area() << " Perimeter: " << line2->perimeter() << endl;
 
-    Line *line3 = (Line *) line.rotate(90);
+    Line *line3 = (Line *) line.rotate(90, 0, 0);
     cout << "NEW ROTATE LINE : " << *line3 << endl;
     cout << "Width : " << line3->getWidth() << " Height " << line3->getHeight() << endl;
     cout << "Area: " << line3->area() << " Perimeter: " << line3->perimeter() << endl;
@@ -87,6 +89,7 @@ int startCli() {
             pointY1 = 0,
             pointY2 = 0;
     float radius;
+    Polygon polygon;
 
     cout << "******************************************" << endl;
     cout << "*                                        *" << endl;
@@ -188,8 +191,20 @@ int startCli() {
                 cout << "Rectangle drawn." << endl;
                 break;
             case 5:
-                cout << "Not yet implemented." << endl;
-                cout << "Come back later !" << endl;
+                cout << "Drawing a polygon" << endl;
+
+                do {
+                    cout << "How many points do you want : " << endl;
+                    cin >> choice_user;
+                } while (!isValidChoice(choice_user, 1, 50, "Please, choose a correct choice. (0 < x < 50"));
+                for (int i = 0; i < choice_user; i++) {
+                    cout << "Point " << i << " : " << endl;
+                    askCoordinate(pointX1, "X");
+                    askCoordinate(pointY1, "Y");
+                    polygon.addPoint(*new Point(pointX1, pointY1));
+                }
+                cout << polygon << endl;
+                image.add(polygon);
                 break;
             case 6:
                 if (image.getCount() == 0) {
@@ -206,10 +221,14 @@ int startCli() {
                         cin >> radius;
                     } while (!isValidChoice(radius, -360, 360,
                                             "Please enter a valid degree rotation (-360 < r < 360)"));
-                    image.get(choice_user - 1)->rotate(radius);
+                    cout << "Coordinate of the rotation point : ";
+                    askCoordinate(pointX1, "X");
+                    askCoordinate(pointY1, "Y");
+                    image.get(choice_user - 1)->rotate(radius, pointX1, pointY1);
                     cout << "Shape rotated.\n" << endl;
                 }
                 break;
+
             case 9:
                 image = Image();
                 break;
