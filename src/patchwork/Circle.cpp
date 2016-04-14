@@ -2,6 +2,7 @@
 // Created by Pichou Maxime on 29/03/2016.
 //
 
+#include <math.h>
 #include "Circle.h"
 
 const std::string Circle::PREFIX = std::string("CIRC");
@@ -58,9 +59,18 @@ Figure *Circle::scale(float factor) const {
     return new Circle(this->_centre, this->_rayon * factor);
 }
 
-Figure *Circle::rotate(float angle) const {
-    return nullptr;
+Figure *Circle::rotate(float angle, double center_x, double center_y) const {
+    double radianAngle = angle / 180.0 * M_PI;
+    long x_new = lround(
+            cos(radianAngle) * (_centre.getX() - center_x) - sin(radianAngle) * (_centre.getY() - center_y) + center_x);
+    long y_new = lround(
+            sin(radianAngle) * (_centre.getX() - center_x) + cos(radianAngle) * (_centre.getY() - center_y) + center_y);
+    return new Circle(Point(x_new, y_new), _rayon);
 }
+
+
+
+
 
 
 

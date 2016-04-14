@@ -15,11 +15,6 @@ typedef struct _figureList {
 
 FigureList *registeredFigures = NULL;
 
-ostream &operator<<(ostream &os, const Figure &figure) {
-    os << "Undefined figure";
-    return os;
-}
-
 bool Figure::operator==(const Figure &f) const {
     return (this == &f);
 }

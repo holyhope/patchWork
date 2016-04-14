@@ -23,7 +23,7 @@ public:
 
     static bool decodable(char *message);
 
-    void show(ostream &stream) const;
+    virtual void show(ostream &stream) const;
 
     double getWidth() const;
 
@@ -35,7 +35,7 @@ public:
 
     double perimeter() const;
 
-    Figure *rotate(float angle) const;
+    Figure *rotate(float angle, double center_x, double center_y) const;
 
     static void initialize();
 
@@ -43,8 +43,6 @@ private:
     static const std::string PREFIX;
     Point _A;
     Point _B;
-
-    friend std::ostream &operator<<(std::ostream &os, const Line &l);
 };
 
 #endif //PATCHWORK_LINE_H

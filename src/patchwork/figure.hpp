@@ -4,8 +4,6 @@
 #include <iostream>
 #include "point.hpp"
 
-typedef char *color;
-
 class Figure;
 
 typedef Figure *decodeMethod(char **msg);
@@ -41,13 +39,6 @@ public:
     static void clearRegisteredFigures();
 
     /**
-     * Get the color of the figure.
-     */
-    virtual color getColor() const {
-        return _color;
-    }
-
-    /**
      * Get width of the figure.
      */
     virtual double getWidth() const = 0;
@@ -60,7 +51,7 @@ public:
     /**
      * Construct a new rotated figure.
      */
-    virtual Figure *rotate(float angle) const = 0;
+    virtual Figure *rotate(float angle, double center_x, double center_y) const = 0;
 
     /**
      * Construct a new translated figure.
@@ -104,12 +95,12 @@ public:
 
     bool operator==(const Figure &f) const;
 
-    friend std::ostream &operator<<(std::ostream &os, const Figure &l);
+    friend std::ostream &operator<<(std::ostream &os, const Figure &f) {
+        f.show(os);
+        return os;
+    }
 
     virtual std::string encode() const = 0;
-
-private:
-    color _color;
 };
 
 #endif

@@ -22,6 +22,10 @@ public:
     Image(const Point &a = Point(0, 0))
             : _origin(a), _figures(), _count(0) { }
 
+    Image(const Image &image);
+
+
+
     void add(const Figure &f);
 
     Figure *copy() const;
@@ -59,7 +63,7 @@ public:
 
     double perimeter() const;
 
-    Figure *rotate(float angle) const;
+    Figure *rotate(float angle, double center_x, double center_y) const;
 
     friend bool operator<(const Figure &left, const Figure &right);
 

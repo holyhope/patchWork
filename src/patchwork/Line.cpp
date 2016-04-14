@@ -12,11 +12,6 @@ Figure *Line::copy() const {
     return new Line(_A, _B);
 }
 
-std::ostream &operator<<(std::ostream &os, const Line &l) {
-    os << "Line(" << l._A << ";" << l._B << ")";
-    return os;
-}
-
 void Line::show(ostream &stream) const {
     stream << "Line(A:" << this->_A << ", B:" << this->_B << ")";
 }
@@ -59,9 +54,6 @@ double Line::getHeight() const {
     return sqrt((xC_minus_xB * xC_minus_xB) + (yC_minus_yB * yC_minus_yB));
 }
 
-/*
- * TODO
- */
 Figure *Line::scale(float factor) const {
     long newBx = lround(_B.getX() + (_B.getX() - _A.getX()) / perimeter() * factor);
     long newBy = lround(_B.getY() + (_B.getY() - _A.getY()) / perimeter() * factor);
@@ -73,9 +65,7 @@ double Line::area() const {
     return perimeter();
 }
 
-/*
- * TODO
- */
+
 double Line::perimeter() const {
     double xB_minus_xA = _B.getX() - _A.getX();
     double yB_minus_yA = _B.getY() - _A.getY();
@@ -83,10 +73,10 @@ double Line::perimeter() const {
     return sqrt((xB_minus_xA * xB_minus_xA) + (yB_minus_yA * yB_minus_yA));
 }
 
-Figure *Line::rotate(float angle) const {
-    float radianAngle = angle / 180.0 * M_PI;
-    float center_x = (_A.getX() + _B.getX()) / 2.;
-    float center_y = (_A.getY() + _B.getY()) / 2.;
+Figure *Line::rotate(float angle, double center_x, double center_y) const {
+    double radianAngle = angle / 180.0 * M_PI;
+    center_x = (_A.getX() + _B.getX()) / 2.;
+    center_y = (_A.getY() + _B.getY()) / 2.;
 
     long Ax_new = lround(
             cos(radianAngle) * (_A.getX() - center_x) - sin(radianAngle) * (_A.getY() - center_y) + center_x);
@@ -97,12 +87,6 @@ Figure *Line::rotate(float angle) const {
             cos(radianAngle) * (_B.getX() - center_x) - sin(radianAngle) * (_B.getY() - center_y) + center_x);
     long By_new = lround(
             sin(radianAngle) * (_B.getX() - center_x) + cos(radianAngle) * (_B.getY() - center_y) + center_y);
-
-    //long Ax_new = lround((  (_A.getX() - center_x) * cos(radianAngle) + (_A.getY() - center_y) * sin(radianAngle) ) + center_x);
-    //long Ay_new = lround(( -(_A.getX() - center_x) * sin(radianAngle) + (_A.getY() - center_y) * cos(radianAngle) ) + center_y);
-
-    //long Bx_new = lround((  (_B.getX() - center_x) * cos(radianAngle) + (_B.getY() - center_y) * sin(radianAngle) ) + center_x);
-    //long By_new = lround(( -(_B.getX() - center_x) * sin(radianAngle) + (_B.getY() - center_y) * cos(radianAngle) ) + center_y);
 
     return new Line(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
 }
