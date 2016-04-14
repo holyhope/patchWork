@@ -5,7 +5,7 @@
 #include <cmath>
 #include <cstdio>
 #include "Line.h"
-#include "patchwork.h"
+#include "common.h"
 
 const std::string Line::PREFIX = std::string("LINE");
 

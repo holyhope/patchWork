@@ -4,7 +4,7 @@
 
 #include <math.h>
 #include "Circle.h"
-#include "patchwork.h"
+#include "common.h"
 
 const std::string Circle::PREFIX = std::string("CIRC");
 
@@ -20,14 +20,24 @@ void Circle::show(std::ostream &stream) const {
 }
 
 Figure *Circle::decode(std::istream &message) {
-    double rayon;
+    long radius, radiusCommaTmp, radiusComma, nbComma = 10;
     Point *center;
 
     message.ignore(PREFIX.size());
-    message >> rayon;
+    message >> radius;
+    message.get();
+    message >> radiusComma;
     center = Point::decode(message);
 
-    return new Circle(*center, rayon);
+    std::cout << radius << std::endl;
+    std::cout << radiusComma << std::endl;
+
+    radiusCommaTmp = radiusComma;
+    while (0 < (radiusCommaTmp /= 10)) {
+        nbComma *= 10;
+    }
+
+    return new Circle(*center, radius + (double) radiusComma / nbComma);
 }
 
 bool Circle::decodable(std::istream &message) {

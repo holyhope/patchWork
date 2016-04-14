@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include "Rectangle.h"
-#include "patchwork.h"
+#include "common.h"
 
 const std::string Rectangle::PREFIX = std::string("RECT");
 

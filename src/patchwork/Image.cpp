@@ -4,7 +4,7 @@
 
 #include <string.h>
 #include "Image.h"
-#include "patchwork.h"
+#include "common.h"
 
 const std::string Image::PREFIX = std::string("IMG");
 

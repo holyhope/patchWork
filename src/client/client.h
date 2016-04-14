@@ -23,6 +23,8 @@ public:
 
     Image getImage() const;
 
+    void sendAction(const std::string &action) const;
+
 private:
     struct sockaddr_in server_addr;
     bool started = false;

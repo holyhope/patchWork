@@ -5,7 +5,7 @@
 #include <set>
 #include <cmath>
 #include "Polygon.h"
-#include "patchwork.h"
+#include "common.h"
 
 const std::string Polygon::PREFIX = std::string("POLY");
 
@@ -40,7 +40,7 @@ Figure *Polygon::decode(std::istream &message) {
 std::string Polygon::encode() const {
     std::string encodePolygon = PREFIX + std::to_string(_points.size());
     for (auto p : _points) {
-        encodePolygon += p->encode() + " ";
+        encodePolygon += p->encode();
     }
     return encodePolygon;
 }
@@ -50,9 +50,15 @@ bool Polygon::decodable(std::istream &message) {
 }
 
 void Polygon::show(std::ostream &stream) const {
+    bool begin = true;
+
     stream << "Polygon(";
     for (Point *p : _points) {
-        stream << "(" << p->getX() << ", " << p->getY() << "), ";
+        if (!begin) {
+            stream << ", ";
+        }
+        stream << *p;
+        begin = false;
     }
     stream << ")";
 }
@@ -146,7 +152,7 @@ void Polygon::initialize() {
 }
 
 void Polygon::addPoint(const Point &p) {
-    _points.push_back((const_cast<Point *> (&p)));
+    _points.push_back(new Point(p));
 }
 
 

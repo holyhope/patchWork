@@ -16,7 +16,11 @@ SET(PATCHWORK_LIB patchwork.h
         point.hpp
         point.cpp
         Rectangle.h
-        Rectangle.cpp Polygon.cpp Polygon.h)
+        Rectangle.cpp
+        Polygon.cpp
+        Polygon.h
+        common.cpp
+        common.h)
 
 set(INCLUDE_DIR .)
 

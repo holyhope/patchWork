@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "client.h"
+#include "../patchwork/common.h"
 
 #define BUFFER_SIZE 4096
 
@@ -32,14 +33,22 @@ void Client::start() {
     recv(client, buffer, BUFFER_SIZE, 0);
 }
 
+void Client::sendAction(const std::string &action) const {
+    std::string line = action + "\n";
+    send(client, line.c_str(), line.size() * sizeof(char), 0);
+}
+
 void Client::sendFigure(Figure &figure) const {
     std::string buffer = figure.encode();
-    std::cout << buffer << std::endl;
+
+    sendAction(PUT_ACTION);
     send(client, buffer.c_str(), buffer.size() * sizeof(char), 0);
 }
 
 Image Client::getImage() const {
     char buffer[BUFFER_SIZE];
+
+    sendAction(GET_ACTION);
     recv(client, buffer, BUFFER_SIZE - 1, 0);
 
     buffer[BUFFER_SIZE - 1] = '\0';

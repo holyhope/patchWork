@@ -102,7 +102,7 @@ int startCli() {
     while (!finish) {
         do {
             cout << endl << "   **** Draw ****" << endl;
-            cout << to_string(++maxChoice) << ".  Draw an Image" << endl;
+            cout << to_string(++maxChoice) << ".  Draw an image" << endl;
             cout << to_string(++maxChoice) << ".  Draw a Line" << endl;
             cout << to_string(++maxChoice) << ".  Draw a Circle" << endl;
             cout << to_string(++maxChoice) << ".  Draw a Rectangle" << endl;
@@ -110,10 +110,11 @@ int startCli() {
             cout << endl << "   **** Operation ****" << endl;
             cout << to_string(++maxChoice) << ".  Perform a rotation" << endl;
             cout << to_string(++maxChoice) << ".  Perform a scale" << endl;
-            cout << to_string(++maxChoice) << ".  Perform an homothecy" << endl;
+            cout << to_string(++maxChoice) << ".  Perform an homothety" << endl;
             cout << endl << "   **** Other ****" << endl;
             cout << to_string(++maxChoice) << ".  Clear local image" << endl;
-            cout << to_string(++maxChoice) << ". Sync with server" << endl;
+            cout << to_string(++maxChoice) << ". Send to server" << endl;
+            cout << to_string(++maxChoice) << ". Get from server" << endl;
             cout << to_string(++maxChoice) << ". Export to export.txt" << endl;
             cout << to_string(++maxChoice) << ". Import from import.txt" << endl;
             cout << "0.  Exit this awesome application" << endl;
@@ -174,7 +175,7 @@ int startCli() {
                 askCoordinate(pointY1, "Y");
 
                 do {
-                    cout << "Radius of the circle";
+                    cout << "Radius of the circle : ";
                     cin >> radius;
                 } while (!isValidChoice(radius, 0, 100, "Please, enter a valid radius (0 < r < 100)"));
 
@@ -220,7 +221,7 @@ int startCli() {
                 else {
                     showImageWithIndex(image);
                     do {
-                        cout << "On which image you want to perform operations :";
+                        cout << "On which figure you want to perform operations :";
                         cin >> choice_user;
                     } while (!isValidChoice(choice_user, 1, image.getCount(), "Please, choose a correct choice."));
                     do {
@@ -243,7 +244,7 @@ int startCli() {
                 try {
                     client.start();
                     client.sendFigure(image);
-                    image = client.getImage();
+                    image = Image();
                 } catch (const std::exception &e) {
                     cerr << e.what() << endl;
                 }
@@ -254,12 +255,25 @@ int startCli() {
                 }
                 break;
             case 11:
+                try {
+                    client.start();
+                    image = client.getImage();
+                } catch (const std::exception &e) {
+                    cerr << e.what() << endl;
+                }
+                try {
+                    client.stop();
+                } catch (const std::exception &e) {
+                    // Nothing todo
+                }
+                break;
+            case 12:
                 ofile.open("export.txt");
                 ofile << imageServer.encode();
                 ofile.close();
                 cout << "Exported to " << "export.txt" << endl;
                 break;
-            case 12:
+            case 13:
                 ifile.open("import.txt");
                 image.add(*Figure::decode(ifile));
                 ifile.close();

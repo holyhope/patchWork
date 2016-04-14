@@ -5,10 +5,6 @@
 #ifndef PATCHWORK_PATCHWORK_H
 #define PATCHWORK_PATCHWORK_H
 
-#include <string>
-
-bool startWith(std::istream &message, const std::string &prefix);
-
 void initializePatchwork();
 
 void terminatePatchwork();
