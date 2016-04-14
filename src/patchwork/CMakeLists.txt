@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.4)
 project(PatchWork)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11")
+
 SET(PATCHWORK_LIB patchwork.h
         patchwork.cpp
         Circle.h
@@ -14,7 +16,7 @@ SET(PATCHWORK_LIB patchwork.h
         point.hpp
         point.cpp
         Rectangle.h
-        Rectangle.cpp)
+        Rectangle.cpp Polygon.cpp Polygon.h)
 
 set(INCLUDE_DIR .)
 

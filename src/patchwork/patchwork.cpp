@@ -8,6 +8,7 @@
 #include "Circle.h"
 #include "Image.h"
 #include "Rectangle.h"
+#include "Polygon.h"
 
 void initializePatchwork() {
     std::setlocale(LC_ALL, "en_US.utf8");
@@ -16,6 +17,7 @@ void initializePatchwork() {
     Circle::initialize();
     Image::initialize();
     Rectangle::initialize();
+    Polygon::initialize();
 }
 
 void terminatePatchwork() {
