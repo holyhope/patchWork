@@ -1,7 +1,3 @@
-//
-// Created by Pichou Maxime on 29/03/2016.
-//
-
 #include <cmath>
 #include "Rectangle.h"
 #include "common.h"

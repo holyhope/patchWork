@@ -82,7 +82,6 @@ void Image::add(const Figure &f) {
     }
 }
 
-
 void Image::remove(const Figure &f) {
     std::set<Figure *>::iterator it(_figures.begin());
     std::set<Figure *>::iterator tmp;
@@ -196,10 +195,3 @@ Figure *Image::translate(Point p) const {
     }
     return image;
 }
-
-
-
-
-
-
-

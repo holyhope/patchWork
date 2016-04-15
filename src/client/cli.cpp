@@ -13,19 +13,19 @@
 #include "../patchwork/Polygon.h"
 
 typedef enum {
-    EXIT,
-    DRAW_IMAGE,
-    DRAW_LINE,
-    DRAW_CIRCLE,
-    DRAW_RECTANGLE,
-    DRAW_POLYGON,
-    ROTATE,
-    TRANSLATE,
-    CLEAR,
-    SEND,
-    RECEIVE,
-    EXPORT,
-    IMPORT
+    EXIT,           //0
+    DRAW_IMAGE,     //1
+    DRAW_LINE,      //2
+    DRAW_CIRCLE,    //3
+    DRAW_RECTANGLE, //4
+    DRAW_POLYGON,   //5
+    ROTATE,         //6
+    TRANSLATE,      //7
+    CLEAR,          //8
+    SEND,           //9
+    RECEIVE,        //10
+    EXPORT,         //11
+    IMPORT          //12
 } Choice;
 
 
@@ -52,8 +52,7 @@ Choice nextChoice(const Image &image) {
         cout << to_string(++maxChoice) << ".  Draw a Polygon" << endl;
         cout << endl << "   **** Operation ****" << endl;
         cout << to_string(++maxChoice) << ".  Perform a rotation" << endl;
-        cout << to_string(++maxChoice) << ".  Perform a scale" << endl;
-        cout << to_string(++maxChoice) << ".  Perform an homotety" << endl;
+        cout << to_string(++maxChoice) << ".  Perform a translation" << endl;
         cout << endl << "   **** Other ****" << endl;
         cout << to_string(++maxChoice) << ".  Clear local image" << endl;
         cout << to_string(++maxChoice) << ". Send to server" << endl;
@@ -80,6 +79,16 @@ Choice nextChoice(const Image &image) {
 void askCoordinate(int &pointX1, string whichCoord);
 
 void showImageWithIndex(Image image);
+
+Image *createImage();
+
+Line *createLine();
+
+Circle *createCircle();
+
+Rectangle *createRectangle();
+
+Polygon *createPolygon();
 
 Image *createImage();
 
@@ -141,8 +150,7 @@ void rotate(Image &image) {
     do {
         cout << "On which figure you want to perform operations :";
         cin >> choice_user;
-    } while (!isValidChoice(choice_user, 1, image.getCount(),
-                            "Please, choose a correct choice."));
+    } while (!isValidChoice(choice_user, 1, image.getCount(), "Please, choose a correct choice."));
     do {
         cout << "How many degrees : ";
         cin >> radius;
@@ -171,17 +179,17 @@ void translate(Image &image) {
     do {
         cout << "On which figure you want to perform operations :";
         cin >> choice_user;
-    } while (!isValidChoice(choice_user, 1, image.getCount(),
-                            "Please, choose a correct choice."));
+    } while (!isValidChoice(choice_user, 1, image.getCount(), "Please, choose a correct choice."));
 
     cout << "Translation point :" << endl;
     askCoordinate(pointX1, "X");
     askCoordinate(pointY1, "Y");
 
+
     f = image.get(choice_user - 1);
     image.add(*f->translate(Point(pointX1, pointY1)));
     image.remove(*f);
-    cout << "Shape translated.\n" << endl;
+    cout << "Shape scaled.\n" << endl;
 }
 
 int startCli() {
