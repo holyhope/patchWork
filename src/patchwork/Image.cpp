@@ -1,7 +1,3 @@
-//
-// Created by Pichou Maxime on 29/03/2016.
-//
-
 #include <string.h>
 #include "Image.h"
 #include "common.h"

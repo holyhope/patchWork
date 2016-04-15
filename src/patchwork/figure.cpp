@@ -1,7 +1,3 @@
-//
-// Created by Pierre Peronnet on 13/04/2016.
-//
-
 #include <iostream>
 #include "figure.hpp"
 

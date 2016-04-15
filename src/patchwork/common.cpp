@@ -1,7 +1,3 @@
-//
-// Created by Pierre Peronnet on 14/04/2016.
-//
-
 #include <string>
 #include <iostream>
 

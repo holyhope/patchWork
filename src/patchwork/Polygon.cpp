@@ -1,7 +1,3 @@
-//
-// Created by Pichou Maxime on 14/04/2016.
-//
-
 #include <set>
 #include <cmath>
 #include "Polygon.h"

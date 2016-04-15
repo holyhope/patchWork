@@ -1,10 +1,10 @@
-//
-// Created by Pichou Maxime on 29/03/2016.
-//
-
 #ifndef PATCHWORK_RETANGLE_H
 #define PATCHWORK_RETANGLE_H
 
+/**
+ * \file Rectangle.h
+ * \brief Representation of a rectangle, inherited from Figure class.
+ */
 
 #include "figure.hpp"
 #include "point.hpp"
@@ -13,6 +13,11 @@
 class Rectangle : public Figure {
 
 public:
+    /**
+     * Constructor of Rectangle class
+     * \param _origin the top-left corner point of the rectangle
+     * \param extremity the bottom-right corner point of the rectangle
+     */
     Rectangle(const Point &_origin, const Point &extremity)
             : _origin(_origin), _extremity(extremity) { }
 

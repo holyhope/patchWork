@@ -5,6 +5,10 @@
 #ifndef PATCHWORK_CIRCLE_H
 #define PATCHWORK_CIRCLE_H
 
+/**
+ * \file Circle.h
+ * \brief Representation of a circle, inherited from Figure class.
+ */
 #include "Figure.hpp"
 #include "point.hpp"
 #include <iostream>
@@ -13,6 +17,11 @@
 class Circle : public Figure {
 public:
 
+    /**
+     * Constructor of circle.
+     * \param centre Center point of the circle.
+     * \param rayon the radius of the circle.
+     */
     Circle(const Point &centre = Point(0, 0), double rayon = 0)
             : _centre(centre), _rayon(rayon) { }
 

@@ -1,7 +1,3 @@
-//
-// Created by Pierre Peronnet on 14/04/2016.
-//
-
 #ifndef PATCHWORK_COMMON_H
 #define PATCHWORK_COMMON_H
 
