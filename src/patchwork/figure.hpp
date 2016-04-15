@@ -52,32 +52,12 @@ public:
     /**
      * Construct a new translated figure.
      */
-    //virtual Figure* translate(Point p) const = 0;
+    virtual Figure *translate(Point p) const = 0;
 
     /**
      * Construct a new scaled figure.
      */
     virtual Figure *scale(float factor) const = 0;
-
-    /**
-     * Construct a new scaled and translated figure.
-     */
-    //virtual Figure* homothety(Point p, float factor) const = 0 ;
-
-    /**
-     * Construct a new symetrical figure.
-     */
-    //virtual Figure* axialSymetry() const = 0;
-
-    /**
-     * Construct a new symatrical figure.
-     */
-    //virtual Figure* centralSymetry() const = 0;
-
-    /**
-     * Construct a new colorized figure.
-     */
-    //virtual Figure* colorize() const = 0;
 
     /**
      * get the area

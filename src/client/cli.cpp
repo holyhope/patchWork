@@ -27,7 +27,7 @@ void test1() {
     cout << "Area: " << circle.area() << " Perimeter: " << circle.perimeter() << endl;
 
 
-    Circle *circleMinus = (Circle *) circle.scale(0.5);
+    Circle *circleMinus = (Circle *) circle.scale(2);
     cout << *circleMinus << endl;
     cout << "AreaMinus: " << circleMinus->area() << endl;
 
@@ -88,6 +88,7 @@ int startCli() {
             pointX2 = 0,
             pointY1 = 0,
             pointY2 = 0;
+    int scaling_factor;
     float radius;
     Polygon polygon;
 
@@ -109,8 +110,7 @@ int startCli() {
             cout << to_string(++maxChoice) << ".  Draw a Polygon" << endl;
             cout << endl << "   **** Operation ****" << endl;
             cout << to_string(++maxChoice) << ".  Perform a rotation" << endl;
-            cout << to_string(++maxChoice) << ".  Perform a scale" << endl;
-            cout << to_string(++maxChoice) << ".  Perform an homothety" << endl;
+            cout << to_string(++maxChoice) << ".  Perform a translation" << endl;
             cout << endl << "   **** Other ****" << endl;
             cout << to_string(++maxChoice) << ".  Clear local image" << endl;
             cout << to_string(++maxChoice) << ". Send to server" << endl;
@@ -209,7 +209,7 @@ int startCli() {
                     cout << "Point " << i << " : " << endl;
                     askCoordinate(pointX1, "X");
                     askCoordinate(pointY1, "Y");
-                    polygon.addPoint(*new Point(pointX1, pointY1));
+                    polygon.addPoint(Point(pointX1, pointY1));
                 }
                 cout << polygon << endl;
                 image.add(polygon);
@@ -229,18 +229,41 @@ int startCli() {
                         cin >> radius;
                     } while (!isValidChoice(radius, -360, 360,
                                             "Please enter a valid degree rotation (-360 < r < 360)"));
-                    cout << "Coordinate of the rotation point : ";
+                    cout << "Coordinate of the rotation point : " << endl;
                     askCoordinate(pointX1, "X");
                     askCoordinate(pointY1, "Y");
-                    image.get(choice_user - 1)->rotate(radius, pointX1, pointY1);
+                    Figure *f = image.get(choice_user - 1);
+                    image.add(*f->rotate(radius, pointX1, pointY1));
+                    image.remove(*f);
                     cout << "Shape rotated.\n" << endl;
                 }
                 break;
+            case 7:
+                if (image.getCount() == 0) {
+                    cout << "Draw something before perform any operation." << endl;
+                }
+                else {
+                    showImageWithIndex(image);
+                    do {
+                        cout << "On which figure you want to perform operations :";
+                        cin >> choice_user;
+                    } while (!isValidChoice(choice_user, 1, image.getCount(), "Please, choose a correct choice."));
 
-            case 9:
+                    cout << "Translation point :" << endl;
+                    askCoordinate(pointX1, "X");
+                    askCoordinate(pointY1, "Y");
+
+
+                    Figure *f = image.get(choice_user - 1);
+                    image.add(*f->translate(Point(pointX1, pointY1)));
+                    image.remove(*f);
+                    cout << "Shape scaled.\n" << endl;
+                }
+                break;
+            case 8:
                 image = Image();
                 break;
-            case 10:
+            case 9:
                 try {
                     client.start();
                     client.sendFigure(image);
@@ -254,7 +277,7 @@ int startCli() {
                     // Nothing todo
                 }
                 break;
-            case 11:
+            case 10:
                 try {
                     client.start();
                     image = client.getImage();
@@ -267,13 +290,13 @@ int startCli() {
                     // Nothing todo
                 }
                 break;
-            case 12:
+            case 11:
                 ofile.open("export.txt");
                 ofile << imageServer.encode();
                 ofile.close();
                 cout << "Exported to " << "export.txt" << endl;
                 break;
-            case 13:
+            case 12:
                 ifile.open("import.txt");
                 image.add(*Figure::decode(ifile));
                 ifile.close();

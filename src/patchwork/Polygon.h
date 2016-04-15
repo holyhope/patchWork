@@ -13,6 +13,8 @@ public:
     Polygon()
             : _points() { }
 
+    ~ Polygon();
+
     Figure *copy() const;
 
     static Figure *decode(std::istream &message);
@@ -29,6 +31,8 @@ public:
 
     Figure *scale(float factor) const;
 
+    Figure *translate(Point p) const;
+
     double area() const;
 
     double perimeter() const;
@@ -38,6 +42,8 @@ public:
     static void initialize();
 
     void addPoint(const Point &p);
+
+    bool operator==(const Polygon &p) const;
 
 private:
     static const std::string PREFIX;

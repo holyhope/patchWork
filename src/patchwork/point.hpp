@@ -31,6 +31,8 @@ public:
 
     Point &operator=(const Point &p);
 
+    bool operator==(const Point &p) const;
+
 private:
     int _x, _y;
     static const std::string PREFIX;

@@ -27,13 +27,15 @@ public:
 
     void add(const Figure &f);
 
+    void remove(const Figure &f);
+
     Figure *copy() const;
 
     ~Image() {
+
         std::set<Figure *>::iterator it(_figures.begin());
         std::set<Figure *>::iterator tmp;
 
-        // iterate through the set and erase all figures
         for (; it != _figures.end();) {
             tmp = it;
             ++tmp;
@@ -57,6 +59,8 @@ public:
     double getHeight() const;
 
     Figure *scale(float factor) const;
+
+    Figure *translate(Point p) const;
 
     double area() const;
 

@@ -81,6 +81,18 @@ Figure *Circle::rotate(float angle, double center_x, double center_y) const {
     return new Circle(Point(x_new, y_new), _rayon);
 }
 
+bool Circle::operator==(const Circle &c) const {
+    return _centre == c._centre && _rayon;
+}
+
+Figure *Circle::translate(Point p) const {
+    return new Circle(Point(_centre.getX() + p.getX(), _centre.getY() + p.getY()), _rayon);
+}
+
+
+
+
+
 
 
 

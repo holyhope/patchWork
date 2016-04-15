@@ -98,3 +98,16 @@ Figure *Line::rotate(float angle, double center_x, double center_y) const {
 
     return new Line(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
 }
+
+bool Line::operator==(const Line &l) const {
+    return _A == l._A && _B == l._B;
+}
+
+Figure *Line::translate(Point p) const {
+    return new Line(Point(_A.getX() + p.getX(), _A.getY() + p.getY()),
+                    Point(_B.getX() + p.getX(), _B.getY() + p.getY()));
+}
+
+
+
+

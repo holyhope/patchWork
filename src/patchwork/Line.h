@@ -31,6 +31,8 @@ public:
 
     Figure *scale(float factor) const;
 
+    Figure *translate(Point p) const;
+
     double area() const;
 
     double perimeter() const;
@@ -38,6 +40,8 @@ public:
     Figure *rotate(float angle, double center_x, double center_y) const;
 
     static void initialize();
+
+    bool operator==(const Line &l) const;
 
 private:
     static const std::string PREFIX;

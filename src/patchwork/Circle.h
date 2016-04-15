@@ -36,6 +36,8 @@ public:
 
     Figure *scale(float factor) const;
 
+    Figure *translate(Point p) const;
+
     //virtual Figure *homothety(Point p, float factor) const;
 
     //virtual Figure *axialSymetry() const ;
@@ -51,6 +53,8 @@ public:
     Figure *rotate(float angle, double center_x, double center_y) const;
 
     static void initialize();
+
+    bool operator==(const Circle &c) const;
 
 private:
     const static std::string PREFIX;
