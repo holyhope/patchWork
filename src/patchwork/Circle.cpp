@@ -16,7 +16,7 @@ Figure *Circle::copy() const {
 }
 
 void Circle::show(std::ostream &stream) const {
-    stream << "Circle(Center:" << _centre << ", Radius;" << _rayon << ")";
+    stream << "Circle(Center:" << _centre << ", Radius:" << _rayon << ")";
 }
 
 Figure *Circle::decode(std::istream &message) {

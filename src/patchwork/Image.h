@@ -64,8 +64,6 @@ public:
 
     Figure *rotate(float angle, double center_x, double center_y) const;
 
-    friend bool operator<(const Figure &left, const Figure &right);
-
     static void initialize();
 
     int getCount() const;

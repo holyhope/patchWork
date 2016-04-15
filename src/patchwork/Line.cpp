@@ -13,11 +13,6 @@ Figure *Line::copy() const {
     return new Line(_A, _B);
 }
 
-std::ostream &operator<<(std::ostream &os, const Line &l) {
-    l.show(os);
-    return os;
-}
-
 void Line::show(std::ostream &stream) const {
     stream << "Line(A:" << _A << ", B:" << _B << ")";
 }

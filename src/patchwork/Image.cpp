@@ -35,11 +35,6 @@ void Image::initialize() {
     Figure::registerFigure(Image::decodable, Image::decode);
 }
 
-std::ostream &operator<<(std::ostream &os, const Image &image) {
-    image.show(os);
-    return os;
-}
-
 Figure *Image::decode(std::istream &stream) {
     Image *image = new Image();
     int nb;
@@ -92,10 +87,31 @@ void Image::add(const Figure &f) {
 }
 
 void Image::show(std::ostream &stream) const {
+    static int depth = 0;
 
-    stream << "Image contains " << this->_count << "figures" << std::endl;
+    if (0 == _count) {
+        stream << "Empty image";
+        return;
+    }
+
+    stream << "Image contains " << _count << " figure" << (_count > 1 ? "s" : "") << std::endl;
+    depth++;
+
+    std::set<Figure *>::const_iterator it(_figures.begin());
+    std::set<Figure *>::const_iterator end(_figures.end());
+    while (it != end) {
+        for (int i = 0; i < depth; i++) {
+            stream << ">";
+        }
+        stream << " " << **it;
+        it++;
+        if (it != end) {
+            stream << std::endl;
+        }
+    }
+
+    depth--;
 }
-
 
 double Image::getWidth() const {
     double maxWidth = 0;

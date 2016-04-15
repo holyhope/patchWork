@@ -12,14 +12,74 @@
 #include "../patchwork/Line.h"
 #include "../patchwork/Polygon.h"
 
+typedef enum {
+    EXIT,
+    DRAW_LINE,
+    DRAW_CIRCLE,
+    DRAW_RECTANGLE,
+    DRAW_POLYGON,
+    ROTATE,
+    SCALE,
+    HOMOTETY,
+    CLEAR,
+    SEND,
+    RECEIVE,
+    EXPORT,
+    IMPORT
+} Choice;
+
+
 using namespace std;
+
+Choice toChoice(const int input) {
+    return (Choice) input;
+}
+
+template<typename Type>
+bool isValidChoice(Type choice, int boundM, int boundP, string errorMessage);
+
+Choice nextChoice(const Image &image) {
+    int maxChoice = 0;
+    char *input;
+    int choice_user;
+
+    do {
+        cout << endl << "   **** Draw ****" << endl;
+        //cout << to_string(++maxChoice) << ".  Draw an image" << endl;
+        cout << to_string(++maxChoice) << ".  Draw a Line" << endl;
+        cout << to_string(++maxChoice) << ".  Draw a Circle" << endl;
+        cout << to_string(++maxChoice) << ".  Draw a Rectangle" << endl;
+        cout << to_string(++maxChoice) << ".  Draw a Polygon" << endl;
+        cout << endl << "   **** Operation ****" << endl;
+        cout << to_string(++maxChoice) << ".  Perform a rotation" << endl;
+        cout << to_string(++maxChoice) << ".  Perform a scale" << endl;
+        cout << to_string(++maxChoice) << ".  Perform an homotety" << endl;
+        cout << endl << "   **** Other ****" << endl;
+        cout << to_string(++maxChoice) << ".  Clear local image" << endl;
+        cout << to_string(++maxChoice) << ". Send to server" << endl;
+        cout << to_string(++maxChoice) << ". Get from server" << endl;
+        cout << to_string(++maxChoice) << ". Export to export.txt" << endl;
+        cout << to_string(++maxChoice) << ". Import from import.txt" << endl;
+        cout << "0.  Exit this awesome application" << endl;
+        cout << endl << image << endl;
+        cout << "Your choice : ";
+
+        input = readline("");
+        try {
+            choice_user = std::atoi(input);
+        } catch (const std::invalid_argument &e) {
+            // Nothing to do
+        }
+    } while (!isValidChoice(choice_user, 0, maxChoice + 1, "Please, choose a correct choice."));
+
+    add_history(input);
+
+    return toChoice(choice_user);
+}
 
 void askCoordinate(int &pointX1, string whichCoord);
 
 void showImageWithIndex(Image image);
-
-template<typename Type>
-bool isValidChoice(Type choice, int boundM, int boundP, string errorMessage);
 
 void test1() {
     Circle circle(Point(0, 0), 3.);
@@ -68,12 +128,12 @@ int startCli() {
     std::ofstream ofile;
     std::ifstream ifile;
 
-    int choice_user = -1;
-    int maxChoice = 0;
+    Choice choiceAction;
+    int choice_user;
     bool finish = false;
     struct sockaddr_in server_addr;
     int portNum = 1500;
-    char *input;
+    float radius;
     std::string ip = "127.0.0.1";
 
     server_addr.sin_family = AF_INET;
@@ -88,7 +148,6 @@ int startCli() {
             pointX2 = 0,
             pointY1 = 0,
             pointY2 = 0;
-    float radius;
     Polygon polygon;
 
     cout << "******************************************" << endl;
@@ -100,49 +159,10 @@ int startCli() {
     cout << "What do you want to do ?" << endl;
 
     while (!finish) {
-        do {
-            cout << endl << "   **** Draw ****" << endl;
-            cout << to_string(++maxChoice) << ".  Draw an image" << endl;
-            cout << to_string(++maxChoice) << ".  Draw a Line" << endl;
-            cout << to_string(++maxChoice) << ".  Draw a Circle" << endl;
-            cout << to_string(++maxChoice) << ".  Draw a Rectangle" << endl;
-            cout << to_string(++maxChoice) << ".  Draw a Polygon" << endl;
-            cout << endl << "   **** Operation ****" << endl;
-            cout << to_string(++maxChoice) << ".  Perform a rotation" << endl;
-            cout << to_string(++maxChoice) << ".  Perform a scale" << endl;
-            cout << to_string(++maxChoice) << ".  Perform an homothety" << endl;
-            cout << endl << "   **** Other ****" << endl;
-            cout << to_string(++maxChoice) << ".  Clear local image" << endl;
-            cout << to_string(++maxChoice) << ". Send to server" << endl;
-            cout << to_string(++maxChoice) << ". Get from server" << endl;
-            cout << to_string(++maxChoice) << ". Export to export.txt" << endl;
-            cout << to_string(++maxChoice) << ". Import from import.txt" << endl;
-            cout << "0.  Exit this awesome application" << endl;
-            cout << endl;
+        choiceAction = nextChoice(image);
 
-            if (0 < image.getCount()) {
-                cout << image.encode() << endl;
-            } else {
-                cout << "Empty image" << endl;
-            }
-
-            do {
-                input = readline("Your choice : ");
-                try {
-                    choice_user = std::atoi(input);
-                } catch (const std::invalid_argument &e) {
-                    // Nothing to do
-                }
-            } while (0 > choice_user);
-            add_history(input);
-
-        } while (!isValidChoice(choice_user, 0, maxChoice + 1, "Please, choose a correct choice."));
-        maxChoice = 0;
-
-        cout << endl;
-
-        switch (choice_user) {
-            case 1:
+        switch (choiceAction) {
+            /*case 1:
                 cout << "Drawing an Image" << endl;
 
                 askCoordinate(pointX1, "X");
@@ -151,8 +171,8 @@ int startCli() {
                 image.add(Image(Point(pointX1, pointY1)));
 
                 cout << "Image drawn." << endl;
-                break;
-            case 2:
+                break;*/
+            case DRAW_LINE:
                 cout << "Drawing a Line" << endl;
 
                 cout << "Point A" << endl;
@@ -167,7 +187,7 @@ int startCli() {
 
                 cout << "Line drawn." << endl;
                 break;
-            case 3:
+            case DRAW_CIRCLE:
                 cout << "Drawing a Circle" << endl;
 
                 cout << "Center of the circle" << endl;
@@ -183,7 +203,7 @@ int startCli() {
 
                 cout << "Circle drawn." << endl;
                 break;
-            case 4:
+            case DRAW_RECTANGLE:
                 cout << "Drawing a rectangle" << endl;
 
                 cout << "Point of top-left corner" << endl;
@@ -198,7 +218,7 @@ int startCli() {
 
                 cout << "Rectangle drawn." << endl;
                 break;
-            case 5:
+            case DRAW_POLYGON:
                 cout << "Drawing a polygon" << endl;
 
                 do {
@@ -214,7 +234,7 @@ int startCli() {
                 cout << polygon << endl;
                 image.add(polygon);
                 break;
-            case 6:
+            case ROTATE:
                 if (image.getCount() == 0) {
                     cout << "Draw something before perform any operation." << endl;
                 }
@@ -237,10 +257,10 @@ int startCli() {
                 }
                 break;
 
-            case 9:
+            case CLEAR:
                 image = Image();
                 break;
-            case 10:
+            case SEND:
                 try {
                     client.start();
                     client.sendFigure(image);
@@ -254,7 +274,7 @@ int startCli() {
                     // Nothing todo
                 }
                 break;
-            case 11:
+            case RECEIVE:
                 try {
                     client.start();
                     image = client.getImage();
@@ -267,24 +287,24 @@ int startCli() {
                     // Nothing todo
                 }
                 break;
-            case 12:
+            case EXPORT:
                 ofile.open("export.txt");
                 ofile << imageServer.encode();
                 ofile.close();
                 cout << "Exported to " << "export.txt" << endl;
                 break;
-            case 13:
+            case IMPORT:
                 ifile.open("import.txt");
                 image.add(*Figure::decode(ifile));
                 ifile.close();
                 cout << "Imported from " << "import.txt" << endl;
                 break;
-            case 0:
+            case EXIT:
                 finish = true;
                 clear_history();
                 break;
             default:
-                cout << "An error occur, sorry !" << endl;
+                cerr << "An error occur, sorry !" << endl;
                 return -1;
         }
     }

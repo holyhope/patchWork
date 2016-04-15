@@ -45,7 +45,7 @@ void Server::start() {
 
         manageClient(socketClient);
 
-        std::cout << _image.encode() << std::endl;
+        std::cout << _image << std::endl;
     }
 }
 
@@ -58,10 +58,9 @@ void Server::doPutAction(std::istringstream &in) {
         imageTmp = Figure::decode(in);
         _image.add(*imageTmp);
     } catch (const std::exception &e) {
-        std::cerr << e.what() << std::endl;
         in.seekg(pos);
         in >> buffer;
-        std::cerr << " >> " << buffer << std::endl;
+        std::cerr << e.what() << std::endl << " >> " << buffer << std::endl;
     }
 }
 
@@ -91,10 +90,10 @@ void Server::manageClient(const int socketClient) {
         in = std::istringstream(buffer);
         in.getline(action, BUFFER_SIZE);
         if (0 == strcmp(action, GET_ACTION)) {
-            std::cerr << "Action " << action << " for #" << socketClient << std::endl;
+            std::cout << "=> Action " << action << " for #" << socketClient << std::endl;
             doGetAction(socketClient);
         } else if (0 == strcmp(action, PUT_ACTION)) {
-            std::cerr << "Action " << action << " for #" << socketClient << std::endl;
+            std::cout << "=> Action " << action << " for #" << socketClient << std::endl;
             doPutAction(in);
         } else {
             std::cerr << "Unknow action (" << buffer << ") for #" << socketClient << std::endl;
