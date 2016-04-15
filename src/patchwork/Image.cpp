@@ -1,7 +1,3 @@
-//
-// Created by Pichou Maxime on 29/03/2016.
-//
-
 #include <string.h>
 #include "Image.h"
 #include "common.h"
@@ -86,6 +82,25 @@ void Image::add(const Figure &f) {
     }
 }
 
+
+void Image::remove(const Figure &f) {
+    std::set<Figure *>::iterator it(_figures.begin());
+    std::set<Figure *>::iterator tmp;
+
+    for (; it != _figures.end();) {
+        if ((*it) == &f) {
+            tmp = it;
+            ++tmp;
+            _figures.erase(it);
+            _count--;
+            it = tmp;
+        } else {
+            it++;
+        }
+
+    }
+}
+
 void Image::show(std::ostream &stream) const {
     static int depth = 0;
 
@@ -94,7 +109,7 @@ void Image::show(std::ostream &stream) const {
         return;
     }
 
-    stream << "Image contains " << _count << " figure" << (_count > 1 ? "s" : "") << std::endl;
+    stream << "Image at (" << _origin << ") contains " << _count << " figure" << (_count > 1 ? "s" : "") << std::endl;
     depth++;
 
     std::set<Figure *>::const_iterator it(_figures.begin());
@@ -132,14 +147,6 @@ double Image::getHeight() const {
         }
     }
     return maxHeight;
-}
-
-Figure *Image::scale(float factor) const {
-    Image *newImage = new Image(this->_origin);
-    for (auto f : _figures) {
-        newImage->add(*f->scale(factor));
-    }
-    return newImage;
 }
 
 double Image::area() const {
@@ -181,4 +188,18 @@ Figure *Image::get(int i) const {
     return 0;
 
 }
+
+Figure *Image::translate(Point p) const {
+    Image *image = new Image(_origin);
+    for (auto f : _figures) {
+        image->add(*(f->translate(p)));
+    }
+    return image;
+}
+
+
+
+
+
+
 

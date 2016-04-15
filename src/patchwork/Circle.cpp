@@ -1,7 +1,3 @@
-//
-// Created by Pichou Maxime on 29/03/2016.
-//
-
 #include <math.h>
 #include "Circle.h"
 #include "common.h"
@@ -28,9 +24,6 @@ Figure *Circle::decode(std::istream &message) {
     message.get();
     message >> radiusComma;
     center = Point::decode(message);
-
-    std::cout << radius << std::endl;
-    std::cout << radiusComma << std::endl;
 
     radiusCommaTmp = radiusComma;
     while (0 < (radiusCommaTmp /= 10)) {
@@ -68,10 +61,6 @@ double Circle::perimeter() const {
     return 2. * 3.1416 * _rayon;
 }
 
-Figure *Circle::scale(float factor) const {
-    return new Circle(this->_centre, this->_rayon * factor);
-}
-
 Figure *Circle::rotate(float angle, double center_x, double center_y) const {
     double radianAngle = angle / 180.0 * M_PI;
     long x_new = lround(
@@ -80,6 +69,18 @@ Figure *Circle::rotate(float angle, double center_x, double center_y) const {
             sin(radianAngle) * (_centre.getX() - center_x) + cos(radianAngle) * (_centre.getY() - center_y) + center_y);
     return new Circle(Point(x_new, y_new), _rayon);
 }
+
+bool Circle::operator==(const Circle &c) const {
+    return _centre == c._centre && _rayon;
+}
+
+Figure *Circle::translate(Point p) const {
+    return new Circle(Point(_centre.getX() + p.getX(), _centre.getY() + p.getY()), _rayon);
+}
+
+
+
+
 
 
 

@@ -1,7 +1,3 @@
-//
-// Created by Pierre Peronnet on 12/04/2016.
-//
-
 #include <sys/socket.h>
 #include <unistd.h>
 #include <sstream>
@@ -40,7 +36,7 @@ void Client::sendAction(const std::string &action) const {
 
 void Client::sendFigure(Figure &figure) const {
     std::string buffer = figure.encode();
-
+    std::cout << buffer << std::endl;
     sendAction(PUT_ACTION);
     send(client, buffer.c_str(), buffer.size() * sizeof(char), 0);
 }

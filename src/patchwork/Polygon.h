@@ -1,9 +1,10 @@
-//
-// Created by Pichou Maxime on 14/04/2016.
-//
-
 #ifndef PATCHWORK_POLYGON_H
 #define PATCHWORK_POLYGON_H
+
+/**
+ * \file Polygon.h
+ * \brief Representation of a figure with n points i.e Polygon
+ */
 
 #include <vector>
 #include "figure.hpp"
@@ -12,6 +13,8 @@ class Polygon : public Figure {
 public:
     Polygon()
             : _points() { }
+
+    ~ Polygon();
 
     Figure *copy() const;
 
@@ -27,7 +30,7 @@ public:
 
     double getHeight() const;
 
-    Figure *scale(float factor) const;
+    Figure *translate(Point p) const;
 
     double area() const;
 
@@ -37,7 +40,14 @@ public:
 
     static void initialize();
 
+
+    /**
+     * Add a new point to the current polygon.
+     * \param p the point to add
+     */
     void addPoint(const Point &p);
+
+    bool operator==(const Polygon &p) const;
 
 private:
     static const std::string PREFIX;

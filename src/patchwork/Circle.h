@@ -5,6 +5,10 @@
 #ifndef PATCHWORK_CIRCLE_H
 #define PATCHWORK_CIRCLE_H
 
+/**
+ * \file Circle.h
+ * \brief Representation of a circle, inherited from Figure class.
+ */
 #include "Figure.hpp"
 #include "point.hpp"
 #include <iostream>
@@ -13,6 +17,11 @@
 class Circle : public Figure {
 public:
 
+    /**
+     * Constructor of circle.
+     * \param centre Center point of the circle.
+     * \param rayon the radius of the circle.
+     */
     Circle(const Point &centre = Point(0, 0), double rayon = 0)
             : _centre(centre), _rayon(rayon) { }
 
@@ -30,19 +39,7 @@ public:
 
     double getHeight() const;
 
-    //virtual Figure *rotate(float angle)const ;
-
-    //virtual Figure *translate(Point p) const;
-
-    Figure *scale(float factor) const;
-
-    //virtual Figure *homothety(Point p, float factor) const;
-
-    //virtual Figure *axialSymetry() const ;
-
-    //virtual Figure *centralSymetry() const;
-
-    //virtual Figure *colorize() const;
+    Figure *translate(Point p) const;
 
     double area() const;
 
@@ -51,6 +48,8 @@ public:
     Figure *rotate(float angle, double center_x, double center_y) const;
 
     static void initialize();
+
+    bool operator==(const Circle &c) const;
 
 private:
     const static std::string PREFIX;

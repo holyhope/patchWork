@@ -1,13 +1,16 @@
-//
-// Created by Pichou Maxime on 14/04/2016.
-//
-
 #include <set>
 #include <cmath>
 #include "Polygon.h"
 #include "common.h"
 
 const std::string Polygon::PREFIX = std::string("POLY");
+
+
+Polygon::~Polygon() {
+    for (std::vector<Point *>::iterator itr = _points.begin(); itr != _points.end(); ++itr)
+        delete (*itr);
+    _points.clear();
+}
 
 Figure *Polygon::copy() const {
     Polygon *poly = new Polygon();
@@ -93,13 +96,6 @@ double Polygon::getHeight() const {
     return maxY - minY;
 }
 
-/*
- * TODO
- */
-Figure *Polygon::scale(float factor) const {
-    return nullptr;
-}
-
 double Polygon::area() const {
     int sum1 = 0;
     int sum2 = 0;
@@ -154,6 +150,27 @@ void Polygon::initialize() {
 void Polygon::addPoint(const Point &p) {
     _points.push_back(new Point(p));
 }
+
+bool Polygon::operator==(const Polygon &p) const {
+    return _points == p._points;
+}
+
+Figure *Polygon::translate(Point p) const {
+    Polygon *poly = new Polygon();
+
+    for (auto point : _points) {
+        poly->addPoint(Point(point->getX() + p.getX(), point->getY() + p.getY()));
+    }
+    return poly;
+}
+
+
+
+
+
+
+
+
 
 
 

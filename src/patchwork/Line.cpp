@@ -1,7 +1,3 @@
-//
-// Created by Pichou Maxime on 29/03/2016.
-//
-
 #include <cmath>
 #include <cstdio>
 #include "Line.h"
@@ -57,13 +53,6 @@ double Line::getHeight() const {
     return sqrt((xC_minus_xB * xC_minus_xB) + (yC_minus_yB * yC_minus_yB));
 }
 
-Figure *Line::scale(float factor) const {
-    long newBx = lround(_B.getX() + (_B.getX() - _A.getX()) / perimeter() * factor);
-    long newBy = lround(_B.getY() + (_B.getY() - _A.getY()) / perimeter() * factor);
-    return new Line(Point(_A.getX(), _A.getY()), Point(newBx, newBy));
-}
-
-
 double Line::area() const {
     return perimeter();
 }
@@ -93,3 +82,16 @@ Figure *Line::rotate(float angle, double center_x, double center_y) const {
 
     return new Line(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
 }
+
+bool Line::operator==(const Line &l) const {
+    return _A == l._A && _B == l._B;
+}
+
+Figure *Line::translate(Point p) const {
+    return new Line(Point(_A.getX() + p.getX(), _A.getY() + p.getY()),
+                    Point(_B.getX() + p.getX(), _B.getY() + p.getY()));
+}
+
+
+
+

@@ -1,7 +1,3 @@
-//
-// Created by Pierre Peronnet on 12/04/2016.
-//
-
 #include <clocale>
 
 #include "Line.h"

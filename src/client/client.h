@@ -1,7 +1,3 @@
-//
-// Created by Pierre Peronnet on 12/04/2016.
-//
-
 #ifndef PATCHWORK_CLIENT_H
 #define PATCHWORK_CLIENT_H
 

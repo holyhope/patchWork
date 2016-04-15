@@ -56,13 +56,6 @@ double Rectangle::getHeight() const {
     return sqrt((xC_minus_xExtremity * xC_minus_xExtremity) + (yC_minus_yExtremity * yC_minus_yExtremity));
 }
 
-/*
- * TODO
- */
-Figure *Rectangle::scale(float factor) const {
-    return nullptr;
-}
-
 double Rectangle::area() const {
     return getWidth() * getHeight();
 }
@@ -89,4 +82,13 @@ Figure *Rectangle::rotate(float angle, double center_x, double center_y) const {
             center_y);
 
     return new Rectangle(Point(Ax_new, Ay_new), Point(Bx_new, By_new));
+}
+
+bool Rectangle::operator==(const Rectangle &r) const {
+    return _origin == r._origin && _extremity == r._extremity;
+}
+
+Figure *Rectangle::translate(Point p) const {
+    return new Rectangle(Point(_origin.getX() + p.getX(), _origin.getY() + p.getY()),
+                         Point(_extremity.getX() + p.getX(), _extremity.getY() + p.getY()));
 }

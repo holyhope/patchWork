@@ -30,3 +30,6 @@
 *.xml
 
 *.iml
+
+.idea/
+Doxygen/

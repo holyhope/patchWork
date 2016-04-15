@@ -14,13 +14,13 @@
 
 typedef enum {
     EXIT,
+    DRAW_IMAGE,
     DRAW_LINE,
     DRAW_CIRCLE,
     DRAW_RECTANGLE,
     DRAW_POLYGON,
     ROTATE,
-    SCALE,
-    HOMOTETY,
+    TRANSLATE,
     CLEAR,
     SEND,
     RECEIVE,
@@ -45,7 +45,7 @@ Choice nextChoice(const Image &image) {
 
     do {
         cout << endl << "   **** Draw ****" << endl;
-        //cout << to_string(++maxChoice) << ".  Draw an image" << endl;
+        cout << to_string(++maxChoice) << ".  Draw an image" << endl;
         cout << to_string(++maxChoice) << ".  Draw a Line" << endl;
         cout << to_string(++maxChoice) << ".  Draw a Circle" << endl;
         cout << to_string(++maxChoice) << ".  Draw a Rectangle" << endl;
@@ -81,15 +81,20 @@ void askCoordinate(int &pointX1, string whichCoord);
 
 void showImageWithIndex(Image image);
 
+Image *createImage();
+
+Line *createLine();
+
+Circle *createCircle();
+
+Rectangle *createRectangle();
+
+Polygon *createPolygon();
+
 void test1() {
     Circle circle(Point(0, 0), 3.);
     cout << circle << endl;
     cout << "Area: " << circle.area() << " Perimeter: " << circle.perimeter() << endl;
-
-
-    Circle *circleMinus = (Circle *) circle.scale(0.5);
-    cout << *circleMinus << endl;
-    cout << "AreaMinus: " << circleMinus->area() << endl;
 
 
     Rectangle rectangle(Point(-2, -3), Point(2, 4));
@@ -101,10 +106,7 @@ void test1() {
     cout << "LINE : " << line << endl;
     cout << "Width : " << line.getWidth() << " Height " << line.getHeight() << endl;
     cout << "Area: " << line.area() << " Perimeter: " << line.perimeter() << endl;
-    Line *line2 = (Line *) line.scale(-3.);
-    cout << "NEW SCALING LINE : " << *line2 << endl;
-    cout << "Width : " << line2->getWidth() << " Height " << line2->getHeight() << endl;
-    cout << "Area: " << line2->area() << " Perimeter: " << line2->perimeter() << endl;
+
 
     Line *line3 = (Line *) line.rotate(90, 0, 0);
     cout << "NEW ROTATE LINE : " << *line3 << endl;
@@ -124,16 +126,72 @@ void test1() {
     cout << image << endl; //display 0
 }
 
+void rotate(Image &image) {
+    Figure *f;
+    float radius;
+    int pointX1 = 0,
+            pointY1 = 0;
+    int choice_user = -1;
+
+    if (image.getCount() == 0) {
+        cout << "Draw something before perform any operation." << endl;
+        return;
+    }
+    showImageWithIndex(image);
+    do {
+        cout << "On which figure you want to perform operations :";
+        cin >> choice_user;
+    } while (!isValidChoice(choice_user, 1, image.getCount(),
+                            "Please, choose a correct choice."));
+    do {
+        cout << "How many degrees : ";
+        cin >> radius;
+    } while (!isValidChoice(radius, -360, 360,
+                            "Please enter a valid degree rotation (-360 < r < 360)"));
+    cout << "Coordinate of the rotation point : " << endl;
+    askCoordinate(pointX1, "X");
+    askCoordinate(pointY1, "Y");
+    f = image.get(choice_user - 1);
+    image.add(*f->rotate(radius, pointX1, pointY1));
+    image.remove(*f);
+    cout << "Shape rotated.\n" << endl;
+}
+
+void translate(Image &image) {
+    Figure *f;
+    int pointX1 = 0,
+            pointY1 = 0;
+    int choice_user = -1;
+
+    if (image.getCount() == 0) {
+        cout << "Draw something before perform any operation." << endl;
+        return;
+    }
+    showImageWithIndex(image);
+    do {
+        cout << "On which figure you want to perform operations :";
+        cin >> choice_user;
+    } while (!isValidChoice(choice_user, 1, image.getCount(),
+                            "Please, choose a correct choice."));
+
+    cout << "Translation point :" << endl;
+    askCoordinate(pointX1, "X");
+    askCoordinate(pointY1, "Y");
+
+    f = image.get(choice_user - 1);
+    image.add(*f->translate(Point(pointX1, pointY1)));
+    image.remove(*f);
+    cout << "Shape translated.\n" << endl;
+}
+
 int startCli() {
     std::ofstream ofile;
     std::ifstream ifile;
 
     Choice choiceAction;
-    int choice_user;
     bool finish = false;
     struct sockaddr_in server_addr;
     int portNum = 1500;
-    float radius;
     std::string ip = "127.0.0.1";
 
     server_addr.sin_family = AF_INET;
@@ -144,119 +202,49 @@ int startCli() {
 
     Image image, imageServer;
 
-    int pointX1 = 0,
-            pointX2 = 0,
-            pointY1 = 0,
-            pointY2 = 0;
-    Polygon polygon;
-
     cout << "******************************************" << endl;
     cout << "*                                        *" << endl;
     cout << "* Welcome to the Patchwork application ! *" << endl;
     cout << "*                                        *" << endl;
     cout << "******************************************" << endl << endl;
 
-    cout << "What do you want to do ?" << endl;
-
     while (!finish) {
         choiceAction = nextChoice(image);
 
         switch (choiceAction) {
-            /*case 1:
-                cout << "Drawing an Image" << endl;
-
-                askCoordinate(pointX1, "X");
-                askCoordinate(pointY1, "Y");
-
-                image.add(Image(Point(pointX1, pointY1)));
-
+            case DRAW_IMAGE:
+                image.add(*createImage());
                 cout << "Image drawn." << endl;
-                break;*/
+                break;
             case DRAW_LINE:
-                cout << "Drawing a Line" << endl;
-
-                cout << "Point A" << endl;
-                askCoordinate(pointX1, "X");
-                askCoordinate(pointY1, "Y");
-
-                cout << "Point B" << endl;
-                askCoordinate(pointX2, "X");
-                askCoordinate(pointY2, "Y");
-
-                image.add(Line(Point(pointX1, pointY1), Point(pointX2, pointY2)));
-
+                image.add(*createLine());
                 cout << "Line drawn." << endl;
                 break;
             case DRAW_CIRCLE:
-                cout << "Drawing a Circle" << endl;
-
-                cout << "Center of the circle" << endl;
-                askCoordinate(pointX1, "X");
-                askCoordinate(pointY1, "Y");
-
-                do {
-                    cout << "Radius of the circle : ";
-                    cin >> radius;
-                } while (!isValidChoice(radius, 0, 100, "Please, enter a valid radius (0 < r < 100)"));
-
-                image.add(Circle(Point(pointX1, pointY1), radius));
-
+                image.add(*createCircle());
                 cout << "Circle drawn." << endl;
                 break;
             case DRAW_RECTANGLE:
-                cout << "Drawing a rectangle" << endl;
-
-                cout << "Point of top-left corner" << endl;
-                askCoordinate(pointX1, "X");
-                askCoordinate(pointY1, "Y");
-
-                cout << "Point of bottom-right corner" << endl;
-                askCoordinate(pointX2, "X");
-                askCoordinate(pointY2, "Y");
-
-                image.add(Rectangle(Point(pointX1, pointY1), Point(pointX2, pointY2)));
-
+                image.add(*createRectangle());
                 cout << "Rectangle drawn." << endl;
                 break;
             case DRAW_POLYGON:
-                cout << "Drawing a polygon" << endl;
-
-                do {
-                    cout << "How many points do you want : " << endl;
-                    cin >> choice_user;
-                } while (!isValidChoice(choice_user, 1, 50, "Please, choose a correct choice. (0 < x < 50"));
-                for (int i = 0; i < choice_user; i++) {
-                    cout << "Point " << i << " : " << endl;
-                    askCoordinate(pointX1, "X");
-                    askCoordinate(pointY1, "Y");
-                    polygon.addPoint(*new Point(pointX1, pointY1));
-                }
-                cout << polygon << endl;
-                image.add(polygon);
+                image.add(*createPolygon());
+                cout << "Polygon drawn." << endl;
+                break;
+            default:
+                showImageWithIndex(image);
+                break;
+            case EXIT:
+                finish = true;
+                clear_history();
                 break;
             case ROTATE:
-                if (image.getCount() == 0) {
-                    cout << "Draw something before perform any operation." << endl;
-                }
-                else {
-                    showImageWithIndex(image);
-                    do {
-                        cout << "On which figure you want to perform operations :";
-                        cin >> choice_user;
-                    } while (!isValidChoice(choice_user, 1, image.getCount(), "Please, choose a correct choice."));
-                    do {
-                        cout << "How many degrees : ";
-                        cin >> radius;
-                    } while (!isValidChoice(radius, -360, 360,
-                                            "Please enter a valid degree rotation (-360 < r < 360)"));
-                    cout << "Coordinate of the rotation point : ";
-                    askCoordinate(pointX1, "X");
-                    askCoordinate(pointY1, "Y");
-                    image.get(choice_user - 1)->rotate(radius, pointX1, pointY1);
-                    cout << "Shape rotated.\n" << endl;
-                }
+                rotate(image);
                 break;
-
+            case TRANSLATE:
+                translate(image);
+                break;
             case CLEAR:
                 image = Image();
                 break;
@@ -299,14 +287,11 @@ int startCli() {
                 ifile.close();
                 cout << "Imported from " << "import.txt" << endl;
                 break;
-            case EXIT:
-                finish = true;
-                clear_history();
-                break;
-            default:
-                cerr << "An error occur, sorry !" << endl;
-                return -1;
         }
+        cout << endl << "Press any key to continue ...";
+        cin.clear();
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        cin.get();
     }
     return 0;
 }
@@ -333,4 +318,79 @@ bool isValidChoice(Type choice, int boundM, int boundP, string errorMessage) {
         return false;
     }
     return true;
+}
+
+
+Image *createImage() {
+    cout << "Drawing an Image" << endl;
+    int pointX = 0, pointY = 0;
+
+    askCoordinate(pointX, "X");
+    askCoordinate(pointY, "Y");
+
+    return new Image(*new Point(pointX, pointY));
+}
+
+Line *createLine() {
+    cout << "Drawing a Line" << endl;
+
+    int pointX1 = 0, pointY1 = 0, pointX2 = 0, pointY2 = 0;
+    cout << "Point A" << endl;
+    askCoordinate(pointX1, "X");
+    askCoordinate(pointY1, "Y");
+
+    cout << "Point B" << endl;
+    askCoordinate(pointX2, "X");
+    askCoordinate(pointY2, "Y");
+
+    return new Line(*new Point(pointX1, pointY1), *new Point(pointX2, pointY2));
+}
+
+Circle *createCircle() {
+    int pointX1 = 0, pointY1 = 0;
+    float radius = 0;
+    cout << "Drawing a Circle" << endl;
+    cout << "Center of the circle" << endl;
+    askCoordinate(pointX1, "X");
+    askCoordinate(pointY1, "Y");
+
+    do {
+        cout << "Radius of the circle : ";
+        cin >> radius;
+    } while (!isValidChoice(radius, 0, 100, "Please, enter a valid radius (0 < r < 100)"));
+
+    return new Circle(*new Point(pointX1, pointY1), radius);
+}
+
+Rectangle *createRectangle() {
+    int pointX1 = 0, pointY1 = 0, pointX2 = 0, pointY2 = 0;
+    cout << "Drawing a rectangle" << endl;
+
+    cout << "Point of top-left corner" << endl;
+    askCoordinate(pointX1, "X");
+    askCoordinate(pointY1, "Y");
+
+    cout << "Point of bottom-right corner" << endl;
+    askCoordinate(pointX2, "X");
+    askCoordinate(pointY2, "Y");
+
+    return new Rectangle(*new Point(pointX1, pointY1), *new Point(pointX2, pointY2));
+}
+
+Polygon *createPolygon() {
+    int choice_user = 0, pointX1 = 0, pointY1 = 0;
+    Polygon *polygon = new Polygon();
+    cout << "Drawing a polygon" << endl;
+
+    do {
+        cout << "How many points do you want : " << endl;
+        cin >> choice_user;
+    } while (!isValidChoice(choice_user, 1, 50, "Please, choose a correct choice. (0 < x < 50"));
+    for (int i = 0; i < choice_user; i++) {
+        cout << "Point " << i << " : " << endl;
+        askCoordinate(pointX1, "X");
+        askCoordinate(pointY1, "Y");
+        polygon->addPoint(*new Point(pointX1, pointY1));
+    }
+    return polygon;
 }

@@ -60,3 +60,8 @@ std::ostream &operator<<(std::ostream &os, const Point &p) {
     os << "Point(" << p._x << ";" << p._y << ")";
     return os;
 }
+
+bool Point::operator==(const Point &p) const {
+    return _x == p._x && _y == p._y;
+}
+
