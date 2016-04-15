@@ -14,28 +14,31 @@
 #define BUFFER_SIZE 4096
 
 void Server::start() {
-    int socketClient;
-    socklen_t size;
-
     _socketServer = socket(AF_INET, SOCK_STREAM, 0);
 
     if (_socketServer < 0) {
         throw std::runtime_error("Error establishing socket");
     }
 
-    std::cout << std::endl << "=> Socket server has been created..." << std::endl;
+    std::cout << "=> Socket server has been created..." << std::endl;
 
     if (0 > _SYS_SOCKET_H_::bind(_socketServer, (struct sockaddr *) &_address, sizeof(_address))) {
         throw std::runtime_error("Error binding connection, the socket has already been established");
     }
 
+    listen(_socketServer, 1);
+}
+
+void Server::run() {
+    int socketClient;
+    socklen_t size;
+
     size = sizeof(_address);
     std::cout << "=> Looking for clients..." << std::endl;
 
-    listen(_socketServer, 1);
-
     while (!_stopped) {
-        std::cout << std::endl;
+        std::cout << std::endl << _image << std::endl << std::endl;
+
         socketClient = accept(_socketServer, (struct sockaddr *) &_address, &size);
 
         // first check if it is valid or not
@@ -44,8 +47,6 @@ void Server::start() {
         }
 
         manageClient(socketClient);
-
-        std::cout << _image << std::endl;
     }
 }
 

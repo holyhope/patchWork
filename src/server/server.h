@@ -23,6 +23,8 @@ public:
 
     void doPutAction(std::istringstream &buffer);
 
+    void run();
+
 private:
     struct sockaddr_in _address;
     bool _stopped;

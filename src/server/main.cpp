@@ -38,6 +38,7 @@ int main(int argc, const char *argv[]) {
 
     try {
         server->start();
+        server->run();
     } catch (const std::runtime_error &e) {
         std::cerr << e.what() << std::endl;
     }
