@@ -43,8 +43,20 @@ public:
      */
     static Figure *decode(std::istream &message);
 
+    /**
+     * Add a decodable Figure subclass. Necessary to craete the instance of the Class with static Figure::decode method.
+     * \see Figure::decode
+     * \see Figure::clearRegisteredFigures
+     * \param decodable The methode to check if the figure is decodable
+     * \param decode The method to create the Figure from a std::istream
+     * \see std::istream
+     */
     static void registerFigure(decodableMethod *decodable, decodeMethod *decode);
 
+    /**
+     * Empty the configuration. Clear all registered figures.
+     * \see Figure::registerFigure
+     */
     static void clearRegisteredFigures();
 
     /**
