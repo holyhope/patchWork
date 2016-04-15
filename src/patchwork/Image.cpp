@@ -112,7 +112,19 @@ void Image::remove(const Figure &f) {
 
 void Image::show(std::ostream &stream) const {
 
-    stream << "Image contains " << this->_count << "figures" << std::endl;
+    stream << "Image( " << _origin << " " << _count << " figures " << std::endl;
+    for (int i = 0; i < _count; i++) {
+        const Image *imageIn = dynamic_cast<const Image *> (get(i));
+        if (imageIn != 0) {
+            stream << std::endl;
+            show(stream);
+        }
+        else {
+            get(i)->show(stream);
+        }
+    }
+    stream << ")";
+
 }
 
 
@@ -135,14 +147,6 @@ double Image::getHeight() const {
         }
     }
     return maxHeight;
-}
-
-Figure *Image::scale(float factor) const {
-    Image *newImage = new Image(this->_origin);
-    for (auto f : _figures) {
-        newImage->add(*f->scale(factor));
-    }
-    return newImage;
 }
 
 double Image::area() const {

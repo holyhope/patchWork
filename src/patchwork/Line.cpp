@@ -62,13 +62,6 @@ double Line::getHeight() const {
     return sqrt((xC_minus_xB * xC_minus_xB) + (yC_minus_yB * yC_minus_yB));
 }
 
-Figure *Line::scale(float factor) const {
-    long newBx = lround(_B.getX() + (_B.getX() - _A.getX()) / perimeter() * factor);
-    long newBy = lround(_B.getY() + (_B.getY() - _A.getY()) / perimeter() * factor);
-    return new Line(Point(_A.getX(), _A.getY()), Point(newBx, newBy));
-}
-
-
 double Line::area() const {
     return perimeter();
 }

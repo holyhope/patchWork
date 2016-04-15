@@ -29,9 +29,6 @@ Figure *Circle::decode(std::istream &message) {
     message >> radiusComma;
     center = Point::decode(message);
 
-    std::cout << radius << std::endl;
-    std::cout << radiusComma << std::endl;
-
     radiusCommaTmp = radiusComma;
     while (0 < (radiusCommaTmp /= 10)) {
         nbComma *= 10;
@@ -66,10 +63,6 @@ double Circle::area() const {
 
 double Circle::perimeter() const {
     return 2. * 3.1416 * _rayon;
-}
-
-Figure *Circle::scale(float factor) const {
-    return new Circle(this->_centre, this->_rayon * factor);
 }
 
 Figure *Circle::rotate(float angle, double center_x, double center_y) const {

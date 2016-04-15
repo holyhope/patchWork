@@ -56,13 +56,6 @@ double Rectangle::getHeight() const {
     return sqrt((xC_minus_xExtremity * xC_minus_xExtremity) + (yC_minus_yExtremity * yC_minus_yExtremity));
 }
 
-/*
- * TODO
- */
-Figure *Rectangle::scale(float factor) const {
-    return nullptr;
-}
-
 double Rectangle::area() const {
     return getWidth() * getHeight();
 }

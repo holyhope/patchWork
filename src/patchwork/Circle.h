@@ -30,21 +30,7 @@ public:
 
     double getHeight() const;
 
-    //virtual Figure *rotate(float angle)const ;
-
-    //virtual Figure *translate(Point p) const;
-
-    Figure *scale(float factor) const;
-
     Figure *translate(Point p) const;
-
-    //virtual Figure *homothety(Point p, float factor) const;
-
-    //virtual Figure *axialSymetry() const ;
-
-    //virtual Figure *centralSymetry() const;
-
-    //virtual Figure *colorize() const;
 
     double area() const;
 

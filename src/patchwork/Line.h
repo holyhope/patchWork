@@ -29,8 +29,6 @@ public:
 
     double getHeight() const;
 
-    Figure *scale(float factor) const;
-
     Figure *translate(Point p) const;
 
     double area() const;

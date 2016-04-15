@@ -19,11 +19,6 @@ public:
     virtual ~Figure() { };
 
     /**
-     * Draw figure in window.
-     */
-    //virtual void draw() const = 0;
-
-    /**
      * Display an ASCII figure on the output stream.
      */
     virtual void show(std::ostream &stream) const = 0;
@@ -53,11 +48,6 @@ public:
      * Construct a new translated figure.
      */
     virtual Figure *translate(Point p) const = 0;
-
-    /**
-     * Construct a new scaled figure.
-     */
-    virtual Figure *scale(float factor) const = 0;
 
     /**
      * get the area

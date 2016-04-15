@@ -100,18 +100,6 @@ double Polygon::getHeight() const {
     return maxY - minY;
 }
 
-/*
- * TODO
- */
-Figure *Polygon::scale(float factor) const {
-    Polygon *poly = new Polygon();
-
-    for (auto p : _points) {
-        poly->addPoint(Point(p->getX() * factor, p->getY() * factor));
-    }
-    return poly;
-}
-
 double Polygon::area() const {
     int sum1 = 0;
     int sum2 = 0;
